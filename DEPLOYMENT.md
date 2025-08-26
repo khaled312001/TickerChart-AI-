@@ -20,8 +20,13 @@
    - **Framework Preset**: Other
    - **Root Directory**: `./`
    - **Build Command**: (اتركه فارغاً)
-   - **Output Directory**: `./`
+   - **Output Directory**: (اتركه فارغاً)
 6. اضغط على "Deploy"
+
+### ملاحظات مهمة:
+- لا تحتاج إلى Build Command لأن المشروع يستخدم PHP
+- Vercel سيتعرف على ملفات PHP تلقائياً
+- جميع ملفات API في مجلد `api/` ستعمل كـ Serverless Functions
 
 ### 3. النشر عبر Vercel CLI
 
@@ -52,11 +57,16 @@ API_BASE_URL=https://your-api-domain.com
 {
   "version": 2,
   "name": "tickerchart-ai",
-  "functions": {
-    "api/**/*.php": {
-      "runtime": "vercel-php@0.6.0"
+  "builds": [
+    {
+      "src": "api/**/*.php",
+      "use": "vercel-php@0.6.0"
+    },
+    {
+      "src": "*.php",
+      "use": "vercel-php@0.6.0"
     }
-  },
+  ],
   "routes": [
     {
       "src": "/api/(.*)",
@@ -121,12 +131,18 @@ git push origin master
 
 1. **خطأ في PHP Runtime**
    - تأكد من استخدام `vercel-php@0.6.0`
+   - تأكد من وجود ملف `composer.json`
 
 2. **خطأ في API Routes**
    - تأكد من صحة مسارات API في `vercel.json`
+   - تأكد من وجود ملف `api/index.php`
 
 3. **خطأ في الملفات الثابتة**
    - تأكد من وجود مجلد `assets/`
+
+4. **خطأ في Build**
+   - لا تحتاج إلى Build Command
+   - اترك Build Command فارغاً في إعدادات Vercel
 
 ### الدعم:
 - [Vercel Documentation](https://vercel.com/docs)
