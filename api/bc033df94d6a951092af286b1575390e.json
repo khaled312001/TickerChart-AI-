@@ -1,0 +1,18 @@
+{
+    "success": true,
+    "symbol": "1180.SR",
+    "timestamp": "2025-08-23 13:41:47",
+    "data_source": "twelve_data",
+    "quote": null,
+    "company_profile": null,
+    "earnings": null,
+    "technical_indicators": [],
+    "ai_insights": [],
+    "risk_analysis": {
+        "level": "متوسط",
+        "factors": [],
+        "support_level": null,
+        "resistance_level": null
+    },
+    "recommendations": []
+}

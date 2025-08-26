@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Minimal Script Test</title>
+</head>
+<body>
+    <h1>Minimal JavaScript Test</h1>
+    <div id="output"></div>
+    
+    <script>
+        console.log('🧪 Starting minimal test...');
+        
+        // Test if scripts load
+        function checkScriptLoading() {
+            const output = document.getElementById('output');
+            let results = [];
+            
+            // Check what's available
+            results.push(`window.PerformanceMonitor: ${typeof window.PerformanceMonitor}`);
+            results.push(`window.performanceMonitor: ${typeof window.performanceMonitor}`);
+            results.push(`window.displayMarketOverview: ${typeof window.displayMarketOverview}`);
+            results.push(`window.formatPrice: ${typeof window.formatPrice}`);
+            results.push(`window.TickerChartAI: ${typeof window.TickerChartAI}`);
+            
+            output.innerHTML = '<pre>' + results.join('\n') + '</pre>';
+            
+            // Try to call a function if it exists
+            if (typeof window.formatPrice === 'function') {
+                try {
+                    const testPrice = window.formatPrice(123.456);
+                    output.innerHTML += `<p>formatPrice test: ${testPrice}</p>`;
+                } catch (error) {
+                    output.innerHTML += `<p>formatPrice error: ${error.message}</p>`;
+                }
+            }
+        }
+        
+        // Check immediately
+        checkScriptLoading();
+        
+        // Check after scripts should be loaded
+        setTimeout(checkScriptLoading, 2000);
+        setTimeout(checkScriptLoading, 5000);
+    </script>
+    
+    <!-- Load scripts with error handling -->
+    <script>
+        console.log('📦 Loading performance-monitor.js...');
+    </script>
+    <script src="performance-monitor.js" 
+            onload="console.log('✅ performance-monitor.js loaded successfully')" 
+            onerror="console.error('❌ Failed to load performance-monitor.js')">
+    </script>
+    
+    <script>
+        console.log('📦 Loading main-optimized.js...');
+    </script>
+    <script src="assets/js/main-optimized.js" 
+            onload="console.log('✅ main-optimized.js loaded successfully'); setTimeout(checkScriptLoading, 100);" 
+            onerror="console.error('❌ Failed to load main-optimized.js')">
+    </script>
+</body>
+</html> 

@@ -1,0 +1,148 @@
+{
+    "success": true,
+    "timestamp": "2025-08-26 11:52:23",
+    "data_source": "sample_data",
+    "market_data": [
+        {
+            "symbol": "1180.SR",
+            "name": "البنك الأهلي السعودي",
+            "price": 45.2,
+            "change": 0.85,
+            "change_percent": 1.92,
+            "volume": 12500000,
+            "high": 45.5,
+            "low": 44.8,
+            "open": 44.35
+        },
+        {
+            "symbol": "1120.SR",
+            "name": "الراجحي",
+            "price": 32.15,
+            "change": -0.45,
+            "change_percent": -1.38,
+            "volume": 8900000,
+            "high": 32.8,
+            "low": 32.1,
+            "open": 32.6
+        },
+        {
+            "symbol": "2010.SR",
+            "name": "سابك",
+            "price": 78.9,
+            "change": 1.2,
+            "change_percent": 1.54,
+            "volume": 15600000,
+            "high": 79.2,
+            "low": 78.5,
+            "open": 77.7
+        },
+        {
+            "symbol": "7010.SR",
+            "name": "الاتصالات السعودية",
+            "price": 28.75,
+            "change": 0.3,
+            "change_percent": 1.05,
+            "volume": 11200000,
+            "high": 28.9,
+            "low": 28.6,
+            "open": 28.45
+        },
+        {
+            "symbol": "2222.SR",
+            "name": "الزيت العربية",
+            "price": 35.6,
+            "change": -0.8,
+            "change_percent": -2.2,
+            "volume": 7800000,
+            "high": 36.2,
+            "low": 35.5,
+            "open": 36.4
+        },
+        {
+            "symbol": "1010.SR",
+            "name": "الرياض",
+            "price": 22.4,
+            "change": 0.15,
+            "change_percent": 0.67,
+            "volume": 4500000,
+            "high": 22.6,
+            "low": 22.3,
+            "open": 22.25
+        },
+        {
+            "symbol": "1020.SR",
+            "name": "البلاد",
+            "price": 18.9,
+            "change": -0.25,
+            "change_percent": -1.31,
+            "volume": 3200000,
+            "high": 19.2,
+            "low": 18.85,
+            "open": 19.15
+        },
+        {
+            "symbol": "1030.SR",
+            "name": "ساب",
+            "price": 29.8,
+            "change": 0.4,
+            "change_percent": 1.36,
+            "volume": 6800000,
+            "high": 30,
+            "low": 29.7,
+            "open": 29.4
+        }
+    ],
+    "top_gainers": [
+        {
+            "symbol": "1180.SR",
+            "name": "البنك الأهلي السعودي",
+            "change_percent": 1.92,
+            "price": 45.2
+        },
+        {
+            "symbol": "2010.SR",
+            "name": "سابك",
+            "change_percent": 1.54,
+            "price": 78.9
+        },
+        {
+            "symbol": "1030.SR",
+            "name": "ساب",
+            "change_percent": 1.36,
+            "price": 29.8
+        },
+        {
+            "symbol": "7010.SR",
+            "name": "الاتصالات السعودية",
+            "change_percent": 1.05,
+            "price": 28.75
+        },
+        {
+            "symbol": "1010.SR",
+            "name": "الرياض",
+            "change_percent": 0.67,
+            "price": 22.4
+        }
+    ],
+    "top_losers": [
+        {
+            "symbol": "2222.SR",
+            "name": "الزيت العربية",
+            "change_percent": -2.2,
+            "price": 35.6
+        },
+        {
+            "symbol": "1020.SR",
+            "name": "البلاد",
+            "change_percent": -1.31,
+            "price": 18.9
+        },
+        {
+            "symbol": "1120.SR",
+            "name": "الراجحي",
+            "change_percent": -1.38,
+            "price": 32.15
+        }
+    ],
+    "total_stocks": 8
+}

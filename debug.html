@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug - TickerChart AI</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .debug-section { margin: 20px 0; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .success { border-left: 4px solid #28a745; }
+        .error { border-left: 4px solid #dc3545; }
+        .warning { border-left: 4px solid #ffc107; }
+        .info { border-left: 4px solid #17a2b8; }
+        button { padding: 10px 20px; margin: 5px; border: none; border-radius: 5px; cursor: pointer; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-warning { background: #ffc107; color: black; }
+        .btn-danger { background: #dc3545; color: white; }
+        pre { background: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; font-size: 12px; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .status.success { background: #d4edda; color: #155724; }
+        .status.error { background: #f8d7da; color: #721c24; }
+        .status.warning { background: #fff3cd; color: #856404; }
+        .status.info { background: #d1ecf1; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <h1>🐛 Debug - TickerChart AI</h1>
+    
+    <div class="debug-section info">
+        <h3>📋 معلومات النظام</h3>
+        <p><strong>الخادم:</strong> <span id="serverStatus">جاري الفحص...</span></p>
+        <p><strong>API Status:</strong> <span id="apiStatus">جاري الفحص...</span></p>
+        <p><strong>JavaScript:</strong> <span id="jsStatus">جاري الفحص...</span></p>
+        <p><strong>الوقت:</strong> <span id="currentTime"></span></p>
+    </div>
+    
+    <div class="debug-section">
+        <h3>🔍 اختبار الاتصال</h3>
+        <button class="btn-primary" onclick="testServer()">اختبار الخادم</button>
+        <button class="btn-success" onclick="testAPI()">اختبار API</button>
+        <button class="btn-warning" onclick="testJavaScript()">اختبار JavaScript</button>
+        <button class="btn-danger" onclick="clearResults()">مسح النتائج</button>
+        <div id="testResults"></div>
+    </div>
+    
+    <div class="debug-section">
+        <h3>📊 اختبار البيانات</h3>
+        <button class="btn-primary" onclick="testMarketData()">بيانات السوق</button>
+        <button class="btn-success" onclick="testTASIData()">بيانات TASI</button>
+        <button class="btn-warning" onclick="testMarketSummary()">ملخص السوق</button>
+        <div id="dataResults"></div>
+    </div>
+    
+    <div class="debug-section">
+        <h3>🌐 اختبار الشبكة</h3>
+        <button class="btn-primary" onclick="testNetwork()">اختبار الشبكة</button>
+        <button class="btn-success" onclick="testYahooFinance()">اختبار Yahoo Finance</button>
+        <div id="networkResults"></div>
+    </div>
+    
+    <div class="debug-section">
+        <h3>📝 سجل الأخطاء</h3>
+        <div id="errorLog"></div>
+    </div>
+
+    <script>
+        // Global error logging
+        window.addEventListener('error', function(e) {
+            logError('JavaScript Error', e.message + ' at ' + e.filename + ':' + e.lineno);
+        });
+        
+        window.addEventListener('unhandledrejection', function(e) {
+            logError('Promise Rejection', e.reason);
+        });
+        
+        function logError(type, message) {
+            const errorLog = document.getElementById('errorLog');
+            const timestamp = new Date().toLocaleTimeString();
+            errorLog.innerHTML += `<div class="status error"><strong>${timestamp} - ${type}:</strong> ${message}</div>`;
+        }
+        
+        function logSuccess(message) {
+            const errorLog = document.getElementById('errorLog');
+            const timestamp = new Date().toLocaleTimeString();
+            errorLog.innerHTML += `<div class="status success"><strong>${timestamp}:</strong> ${message}</div>`;
+        }
+        
+        // Update current time
+        function updateTime() {
+            document.getElementById('currentTime').textContent = new Date().toLocaleString('ar-SA');
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+        
+        // Test server connection
+        async function testServer() {
+            const resultDiv = document.getElementById('testResults');
+            resultDiv.innerHTML = '<div class="status info">جاري اختبار الخادم...</div>';
+            
+            try {
+                const response = await fetch('/');
+                if (response.ok) {
+                    resultDiv.innerHTML = '<div class="status success">✅ الخادم يعمل بشكل صحيح</div>';
+                    document.getElementById('serverStatus').textContent = '✅ يعمل';
+                    logSuccess('Server test passed');
+                } else {
+                    resultDiv.innerHTML = '<div class="status error">❌ الخادم يعمل لكن هناك مشكلة في الاستجابة</div>';
+                    document.getElementById('serverStatus').textContent = '⚠️ مشكلة';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="status error">❌ فشل في الاتصال بالخادم: ${error.message}</div>`;
+                document.getElementById('serverStatus').textContent = '❌ فشل';
+                logError('Server Test', error.message);
+            }
+        }
+        
+        // Test API
+        async function testAPI() {
+            const resultDiv = document.getElementById('testResults');
+            resultDiv.innerHTML = '<div class="status info">جاري اختبار API...</div>';
+            
+            try {
+                const response = await fetch('api/working_market_api.php?action=market_data');
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success) {
+                        resultDiv.innerHTML = '<div class="status success">✅ API يعمل بشكل صحيح</div>';
+                        document.getElementById('apiStatus').textContent = '✅ يعمل';
+                        logSuccess('API test passed');
+                    } else {
+                        resultDiv.innerHTML = `<div class="status warning">⚠️ API يعمل لكن هناك مشكلة في البيانات: ${data.error}</div>`;
+                        document.getElementById('apiStatus').textContent = '⚠️ مشكلة';
+                        logError('API Test', data.error);
+                    }
+                } else {
+                    resultDiv.innerHTML = `<div class="status error">❌ API يعود بخطأ: ${response.status}</div>`;
+                    document.getElementById('apiStatus').textContent = '❌ خطأ';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="status error">❌ فشل في الاتصال بـ API: ${error.message}</div>`;
+                document.getElementById('apiStatus').textContent = '❌ فشل';
+                logError('API Test', error.message);
+            }
+        }
+        
+        // Test JavaScript
+        function testJavaScript() {
+            const resultDiv = document.getElementById('testResults');
+            try {
+                // Test basic JavaScript functionality
+                const testArray = [1, 2, 3];
+                const testObject = { test: 'value' };
+                const testFunction = () => 'test';
+                
+                if (testArray.length === 3 && testObject.test === 'value' && testFunction() === 'test') {
+                    resultDiv.innerHTML = '<div class="status success">✅ JavaScript يعمل بشكل صحيح</div>';
+                    document.getElementById('jsStatus').textContent = '✅ يعمل';
+                    logSuccess('JavaScript test passed');
+                } else {
+                    throw new Error('Basic JavaScript functionality test failed');
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="status error">❌ مشكلة في JavaScript: ${error.message}</div>`;
+                document.getElementById('jsStatus').textContent = '❌ مشكلة';
+                logError('JavaScript Test', error.message);
+            }
+        }
+        
+        // Test market data
+        async function testMarketData() {
+            const resultDiv = document.getElementById('dataResults');
+            resultDiv.innerHTML = '<div class="status info">جاري اختبار بيانات السوق...</div>';
+            
+            try {
+                const response = await fetch('api/working_market_api.php?action=market_data');
+                const data = await response.json();
+                
+                if (data.success && data.data && data.data.stocks) {
+                    const stocks = data.data.stocks;
+                    resultDiv.innerHTML = `
+                        <div class="status success">
+                            <h4>✅ بيانات السوق متاحة</h4>
+                            <p>عدد الأسهم: ${stocks.length}</p>
+                            <p>معدل النجاح: ${data.data.summary ? data.data.summary.success_rate : 'N/A'}%</p>
+                            <details>
+                                <summary>عرض البيانات</summary>
+                                <pre>${JSON.stringify(data, null, 2)}</pre>
+                            </details>
+                        </div>
+                    `;
+                    logSuccess(`Market data test passed - ${stocks.length} stocks loaded`);
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="status error">
+                            <h4>❌ مشكلة في بيانات السوق</h4>
+                            <p>الخطأ: ${data.error || 'لا توجد بيانات'}</p>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                    logError('Market Data Test', data.error || 'No data available');
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="status error">❌ فشل في جلب بيانات السوق: ${error.message}</div>`;
+                logError('Market Data Test', error.message);
+            }
+        }
+        
+        // Test TASI data
+        async function testTASIData() {
+            const resultDiv = document.getElementById('dataResults');
+            resultDiv.innerHTML = '<div class="status info">جاري اختبار بيانات TASI...</div>';
+            
+            try {
+                const response = await fetch('api/working_market_api.php?action=tasi_data&period=1mo');
+                const data = await response.json();
+                
+                if (data.success && data.data && data.data.length > 0) {
+                    resultDiv.innerHTML = `
+                        <div class="status success">
+                            <h4>✅ بيانات TASI متاحة</h4>
+                            <p>عدد النقاط: ${data.data.length}</p>
+                            <p>آخر قيمة: ${data.data[data.data.length - 1]?.close || 'N/A'}</p>
+                            <details>
+                                <summary>عرض البيانات</summary>
+                                <pre>${JSON.stringify(data, null, 2)}</pre>
+                            </details>
+                        </div>
+                    `;
+                    logSuccess(`TASI data test passed - ${data.data.length} data points loaded`);
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="status error">
+                            <h4>❌ مشكلة في بيانات TASI</h4>
+                            <p>الخطأ: ${data.error || 'لا توجد بيانات'}</p>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                    logError('TASI Data Test', data.error || 'No data available');
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="status error">❌ فشل في جلب بيانات TASI: ${error.message}</div>`;
+                logError('TASI Data Test', error.message);
+            }
+        }
+        
+        // Test market summary
+        async function testMarketSummary() {
+            const resultDiv = document.getElementById('dataResults');
+            resultDiv.innerHTML = '<div class="status info">جاري اختبار ملخص السوق...</div>';
+            
+            try {
+                const response = await fetch('api/working_market_api.php?action=market_summary');
+                const data = await response.json();
+                
+                if (data.success && data.data) {
+                    resultDiv.innerHTML = `
+                        <div class="status success">
+                            <h4>✅ ملخص السوق متاح</h4>
+                            <p>حجم التداول: ${data.data.total_volume || 'N/A'}</p>
+                            <p>قيمة التداول: ${data.data.total_value || 'N/A'}</p>
+                            <p>عدد الصفقات: ${data.data.total_deals || 'N/A'}</p>
+                            <p>الشركات النشطة: ${data.data.active_companies || 'N/A'}</p>
+                            <details>
+                                <summary>عرض البيانات</summary>
+                                <pre>${JSON.stringify(data, null, 2)}</pre>
+                            </details>
+                        </div>
+                    `;
+                    logSuccess('Market summary test passed');
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="status error">
+                            <h4>❌ مشكلة في ملخص السوق</h4>
+                            <p>الخطأ: ${data.error || 'لا توجد بيانات'}</p>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                    logError('Market Summary Test', data.error || 'No data available');
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="status error">❌ فشل في جلب ملخص السوق: ${error.message}</div>`;
+                logError('Market Summary Test', error.message);
+            }
+        }
+        
+        // Test network
+        async function testNetwork() {
+            const resultDiv = document.getElementById('networkResults');
+            resultDiv.innerHTML = '<div class="status info">جاري اختبار الشبكة...</div>';
+            
+            try {
+                const startTime = Date.now();
+                const response = await fetch('https://httpbin.org/get');
+                const endTime = Date.now();
+                const latency = endTime - startTime;
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <div class="status success">
+                            <h4>✅ الشبكة تعمل بشكل صحيح</h4>
+                            <p>زمن الاستجابة: ${latency}ms</p>
+                            <p>الحالة: ${response.status} ${response.statusText}</p>
+                        </div>
+                    `;
+                    logSuccess(`Network test passed - ${latency}ms latency`);
+                } else {
+                    resultDiv.innerHTML = `<div class="status warning">⚠️ الشبكة تعمل لكن هناك مشكلة في الاستجابة</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="status error">❌ مشكلة في الشبكة: ${error.message}</div>`;
+                logError('Network Test', error.message);
+            }
+        }
+        
+        // Test Yahoo Finance
+        async function testYahooFinance() {
+            const resultDiv = document.getElementById('networkResults');
+            resultDiv.innerHTML = '<div class="status info">جاري اختبار Yahoo Finance...</div>';
+            
+            try {
+                const response = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/^TASI?interval=1d&range=1d');
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.chart && data.chart.result) {
+                        resultDiv.innerHTML = `
+                            <div class="status success">
+                                <h4>✅ Yahoo Finance متاح</h4>
+                                <p>تم استلام البيانات بنجاح</p>
+                                <details>
+                                    <summary>عرض البيانات</summary>
+                                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                                </details>
+                            </div>
+                        `;
+                        logSuccess('Yahoo Finance test passed');
+                    } else {
+                        resultDiv.innerHTML = '<div class="status warning">⚠️ Yahoo Finance يعمل لكن البيانات غير صحيحة</div>';
+                    }
+                } else {
+                    resultDiv.innerHTML = `<div class="status error">❌ Yahoo Finance يعود بخطأ: ${response.status}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="status error">❌ فشل في الاتصال بـ Yahoo Finance: ${error.message}</div>`;
+                logError('Yahoo Finance Test', error.message);
+            }
+        }
+        
+        // Clear results
+        function clearResults() {
+            document.getElementById('testResults').innerHTML = '';
+            document.getElementById('dataResults').innerHTML = '';
+            document.getElementById('networkResults').innerHTML = '';
+            document.getElementById('errorLog').innerHTML = '';
+        }
+        
+        // Auto-test on page load
+        window.addEventListener('load', function() {
+            console.log('🧪 بدء الاختبار التلقائي...');
+            setTimeout(() => {
+                testServer();
+                setTimeout(testAPI, 1000);
+                setTimeout(testJavaScript, 2000);
+            }, 500);
+        });
+    </script>
+</body>
+</html> 

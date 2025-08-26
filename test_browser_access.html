@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار وصول المتصفح - TickerChart AI</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .success { background: #d4edda; }
+        .error { background: #f8d7da; }
+        .info { background: #d1ecf1; }
+        pre { background: #f8f9fa; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>اختبار وصول المتصفح - TickerChart AI</h1>
+    
+    <div class="test info">
+        <h3>معلومات الاختبار</h3>
+        <p>هذه الصفحة تختبر إمكانية وصول المتصفح إلى API</p>
+        <p>الخادم: <strong id="serverInfo">http://localhost:8000</strong></p>
+    </div>
+    
+    <div class="test">
+        <h3>اختبار 1: الصفحة البسيطة</h3>
+        <button onclick="testSimplePage()">اختبار الصفحة البسيطة</button>
+        <div id="simpleResult"></div>
+    </div>
+    
+    <div class="test">
+        <h3>اختبار 2: Enhanced Market API</h3>
+        <button onclick="testEnhancedAPI()">اختبار Enhanced Market API</button>
+        <div id="enhancedResult"></div>
+    </div>
+    
+    <div class="test">
+        <h3>اختبار 3: AI Tools API</h3>
+        <button onclick="testAITools()">اختبار AI Tools API</button>
+        <div id="aiResult"></div>
+    </div>
+    
+    <div class="test">
+        <h3>اختبار 4: CORS</h3>
+        <button onclick="testCORS()">اختبار CORS</button>
+        <div id="corsResult"></div>
+    </div>
+
+    <script>
+        async function testSimplePage() {
+            const resultDiv = document.getElementById('simpleResult');
+            resultDiv.innerHTML = '<p>جاري الاختبار...</p>';
+            
+            try {
+                const response = await fetch('http://localhost:8000/test_simple.php');
+                const text = await response.text();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            <p>✅ نجح الاختبار</p>
+                            <p>الاستجابة: ${text}</p>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="error">
+                            <p>❌ فشل الاختبار</p>
+                            <p>الحالة: ${response.status} ${response.statusText}</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <p>❌ خطأ في الاتصال</p>
+                        <p>الخطأ: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        async function testEnhancedAPI() {
+            const resultDiv = document.getElementById('enhancedResult');
+            resultDiv.innerHTML = '<p>جاري الاختبار...</p>';
+            
+            try {
+                const response = await fetch('http://localhost:8000/api/enhanced_market_api.php?action=market_overview');
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            <p>✅ نجح الاختبار</p>
+                            <p>البيانات: ${data.total_stocks || 0} سهم</p>
+                            <p>المصدر: ${data.data_source || 'غير محدد'}</p>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="error">
+                            <p>❌ فشل الاختبار</p>
+                            <p>الحالة: ${response.status} ${response.statusText}</p>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <p>❌ خطأ في الاتصال</p>
+                        <p>الخطأ: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        async function testAITools() {
+            const resultDiv = document.getElementById('aiResult');
+            resultDiv.innerHTML = '<p>جاري الاختبار...</p>';
+            
+            try {
+                const response = await fetch('http://localhost:8000/api/ai_tools.php?action=trend_analysis');
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            <p>✅ نجح الاختبار</p>
+                            <p>الاتجاه: ${data.data?.trend || 'غير محدد'}</p>
+                            <p>مستوى الثقة: ${data.data?.confidence || 'غير محدد'}%</p>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="error">
+                            <p>❌ فشل الاختبار</p>
+                            <p>الحالة: ${response.status} ${response.statusText}</p>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <p>❌ خطأ في الاتصال</p>
+                        <p>الخطأ: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        async function testCORS() {
+            const resultDiv = document.getElementById('corsResult');
+            resultDiv.innerHTML = '<p>جاري اختبار CORS...</p>';
+            
+            try {
+                const response = await fetch('http://localhost:8000/api/enhanced_market_api.php?action=market_overview', {
+                    method: 'OPTIONS'
+                });
+                
+                const corsHeaders = {
+                    'Access-Control-Allow-Origin': response.headers.get('Access-Control-Allow-Origin'),
+                    'Access-Control-Allow-Methods': response.headers.get('Access-Control-Allow-Methods'),
+                    'Access-Control-Allow-Headers': response.headers.get('Access-Control-Allow-Headers')
+                };
+                
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <p>✅ CORS يعمل بشكل صحيح</p>
+                        <pre>${JSON.stringify(corsHeaders, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <p>❌ مشكلة في CORS</p>
+                        <p>الخطأ: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html> 

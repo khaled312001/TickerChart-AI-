@@ -1,0 +1,39 @@
+{
+    "success": true,
+    "data": {
+        "stock_name": "الراجحي",
+        "symbol": "1120.SR",
+        "trend_analysis": {
+            "trend": "صاعد",
+            "trend_strength": "قوي",
+            "rsi": 59.71,
+            "rsi_signal": "محايد",
+            "current_price": 96.1,
+            "sma_20": 94.77,
+            "sma_50": 94.51
+        },
+        "price_prediction": {
+            "predicted_price": 96.15,
+            "confidence": 65,
+            "current_price": 96.1,
+            "predicted_change": 0.05,
+            "predicted_change_percent": 0.05,
+            "days_ahead": 7,
+            "method": "simple_trend"
+        },
+        "risk_analysis": {
+            "risk_level": "متوسط",
+            "volatility": 21.51,
+            "var_95": -1.93,
+            "support_level": 92.8,
+            "resistance_level": 96.6,
+            "current_price": 96.1
+        },
+        "technical_indicators": {
+            "rsi": 59.71,
+            "macd": 0.1117,
+            "bb_position": 0.96
+        }
+    },
+    "timestamp": "2025-08-20T19:20:07.465505"
+}

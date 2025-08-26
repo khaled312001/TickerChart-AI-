@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Fixes Verification Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 10px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+        .info { color: #17a2b8; }
+        .debug { color: #6c757d; font-size: 0.9em; }
+        #marketData {
+            min-height: 200px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 JavaScript Fixes Verification Test</h1>
+    
+    <div class="test-container">
+        <h3>Debug Info</h3>
+        <div id="debugInfo">Loading debug information...</div>
+    </div>
+    
+    <div class="test-container">
+        <h3>Test 1: Performance Monitor</h3>
+        <div id="performanceTest">Testing Performance Monitor initialization...</div>
+    </div>
+    
+    <div class="test-container">
+        <h3>Test 2: Display Market Overview Function</h3>
+        <div id="marketOverviewTest">Testing displayMarketOverview function...</div>
+        <div id="marketData"></div>
+    </div>
+    
+    <div class="test-container">
+        <h3>Test 3: Supporting Functions</h3>
+        <div id="supportingFunctionsTest">Testing formatPrice and formatTimestamp functions...</div>
+    </div>
+    
+    <div class="test-container">
+        <h3>Test 4: Service Worker</h3>
+        <div id="serviceWorkerTest">Testing Service Worker functionality...</div>
+    </div>
+
+    <script>
+        console.log('🧪 Starting JavaScript fixes verification...');
+        
+        // Debug function to check what's loaded
+        function debugScriptLoading() {
+            const debugDiv = document.getElementById('debugInfo');
+            let debugInfo = [];
+            
+            // Check window object properties
+            debugInfo.push(`<div class="debug">Window PerformanceMonitor: ${typeof window.PerformanceMonitor}</div>`);
+            debugInfo.push(`<div class="debug">Window performanceMonitor: ${typeof window.performanceMonitor}</div>`);
+            debugInfo.push(`<div class="debug">Window displayMarketOverview: ${typeof window.displayMarketOverview}</div>`);
+            debugInfo.push(`<div class="debug">Window formatPrice: ${typeof window.formatPrice}</div>`);
+            debugInfo.push(`<div class="debug">Window formatTimestamp: ${typeof window.formatTimestamp}</div>`);
+            debugInfo.push(`<div class="debug">Window displaySampleData: ${typeof window.displaySampleData}</div>`);
+            
+            // Check global scope
+            debugInfo.push(`<div class="debug">Global displayMarketOverview: ${typeof displayMarketOverview}</div>`);
+            debugInfo.push(`<div class="debug">Global formatPrice: ${typeof formatPrice}</div>`);
+            debugInfo.push(`<div class="debug">Global formatTimestamp: ${typeof formatTimestamp}</div>`);
+            
+            // Check if scripts are loaded
+            const scripts = document.querySelectorAll('script[src]');
+            debugInfo.push(`<div class="debug">Script tags found: ${scripts.length}</div>`);
+            scripts.forEach((script, index) => {
+                debugInfo.push(`<div class="debug">Script ${index + 1}: ${script.src} (loaded: ${script.readyState || 'unknown'})</div>`);
+            });
+            
+            debugDiv.innerHTML = debugInfo.join('');
+        }
+        
+        // Test 1: Performance Monitor
+        function testPerformanceMonitor() {
+            const testDiv = document.getElementById('performanceTest');
+            try {
+                if (typeof window.PerformanceMonitor !== 'undefined') {
+                    testDiv.innerHTML = '<span class="success">✅ PerformanceMonitor class is defined</span>';
+                    
+                    if (typeof window.performanceMonitor !== 'undefined') {
+                        testDiv.innerHTML += '<br><span class="success">✅ Performance monitor instance is initialized</span>';
+                    } else {
+                        testDiv.innerHTML += '<br><span class="error">❌ Performance monitor instance not found</span>';
+                    }
+                } else {
+                    testDiv.innerHTML = '<span class="error">❌ PerformanceMonitor class not found</span>';
+                }
+            } catch (error) {
+                testDiv.innerHTML = `<span class="error">❌ Performance Monitor Error: ${error.message}</span>`;
+            }
+        }
+        
+        // Test 2: Display Market Overview
+        function testDisplayMarketOverview() {
+            const testDiv = document.getElementById('marketOverviewTest');
+            try {
+                // Check both global and window scope
+                const func = window.displayMarketOverview || displayMarketOverview;
+                if (typeof func === 'function') {
+                    testDiv.innerHTML = '<span class="success">✅ displayMarketOverview function is defined</span>';
+                    
+                    // Test the function with sample data
+                    const sampleData = {
+                        success: true,
+                        timestamp: new Date().toISOString(),
+                        data_source: 'test_data',
+                        market_data: [
+                            { symbol: 'TEST.SR', name: 'اختبار', price: 100.50, change: 2.30, change_percent: 2.34 }
+                        ],
+                        top_gainers: [
+                            { symbol: 'TEST.SR', name: 'اختبار', price: 100.50, change_percent: 2.34 }
+                        ],
+                        top_losers: [],
+                        total_stocks: 1
+                    };
+                    
+                    func(sampleData);
+                    testDiv.innerHTML += '<br><span class="success">✅ displayMarketOverview executed successfully</span>';
+                } else {
+                    testDiv.innerHTML = '<span class="error">❌ displayMarketOverview function not found</span>';
+                }
+            } catch (error) {
+                testDiv.innerHTML = `<span class="error">❌ Display Market Overview Error: ${error.message}</span>`;
+            }
+        }
+        
+        // Test 3: Supporting Functions
+        function testSupportingFunctions() {
+            const testDiv = document.getElementById('supportingFunctionsTest');
+            let results = [];
+            
+            try {
+                // Test formatPrice (check both global and window scope)
+                const formatPriceFunc = window.formatPrice || formatPrice;
+                if (typeof formatPriceFunc === 'function') {
+                    const testPrice = formatPriceFunc(123.456);
+                    results.push(`<span class="success">✅ formatPrice(123.456) = ${testPrice}</span>`);
+                } else {
+                    results.push('<span class="error">❌ formatPrice function not found</span>');
+                }
+                
+                // Test formatTimestamp (check both global and window scope)
+                const formatTimestampFunc = window.formatTimestamp || formatTimestamp;
+                if (typeof formatTimestampFunc === 'function') {
+                    const testTime = formatTimestampFunc(new Date().toISOString());
+                    results.push(`<span class="success">✅ formatTimestamp working: ${testTime}</span>`);
+                } else {
+                    results.push('<span class="error">❌ formatTimestamp function not found</span>');
+                }
+                
+                testDiv.innerHTML = results.join('<br>');
+            } catch (error) {
+                testDiv.innerHTML = `<span class="error">❌ Supporting Functions Error: ${error.message}</span>`;
+            }
+        }
+        
+        // Test 4: Service Worker
+        function testServiceWorker() {
+            const testDiv = document.getElementById('serviceWorkerTest');
+            try {
+                if ('serviceWorker' in navigator) {
+                    testDiv.innerHTML = '<span class="success">✅ Service Worker is supported</span>';
+                    
+                    navigator.serviceWorker.getRegistrations().then(registrations => {
+                        if (registrations.length > 0) {
+                            testDiv.innerHTML += '<br><span class="success">✅ Service Worker is registered</span>';
+                        } else {
+                            testDiv.innerHTML += '<br><span class="info">ℹ️ No Service Worker registrations found</span>';
+                        }
+                    });
+                } else {
+                    testDiv.innerHTML = '<span class="error">❌ Service Worker not supported</span>';
+                }
+            } catch (error) {
+                testDiv.innerHTML = `<span class="error">❌ Service Worker Error: ${error.message}</span>`;
+            }
+        }
+        
+        // Run all tests
+        function runAllTests() {
+            console.log('🧪 Running all tests...');
+            debugScriptLoading();
+            testPerformanceMonitor();
+            testSupportingFunctions();
+            testServiceWorker();
+            
+            // Wait a bit for other scripts to load, then test displayMarketOverview
+            setTimeout(() => {
+                testDisplayMarketOverview();
+                // Update debug info after scripts have loaded
+                setTimeout(debugScriptLoading, 500);
+            }, 1000);
+        }
+        
+        // Start tests when DOM is loaded
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', runAllTests);
+        } else {
+            runAllTests();
+        }
+        
+        // Also run tests when window loads (after all scripts)
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                console.log('🔄 Re-running tests after window load...');
+                runAllTests();
+            }, 1000);
+        });
+    </script>
+    
+    <!-- Load the actual scripts to test -->
+    <script src="performance-monitor.js" onload="console.log('✅ performance-monitor.js loaded')" onerror="console.error('❌ Failed to load performance-monitor.js')"></script>
+    <script src="test_functions.js" onload="console.log('✅ test_functions.js loaded')" onerror="console.error('❌ Failed to load test_functions.js')"></script>
+    <script src="assets/js/main-optimized.js" onload="console.log('✅ main-optimized.js loaded')" onerror="console.error('❌ Failed to load main-optimized.js')"></script>
+</body>
+</html> 

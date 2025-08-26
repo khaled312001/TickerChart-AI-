@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive JavaScript Fixes Test - TickerChart AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .test-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px auto;
+            max-width: 1000px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        .test-result {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+        .test-success {
+            background-color: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+        .test-error {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+        .test-warning {
+            background-color: #fff3cd;
+            border-color: #ffc107;
+            color: #856404;
+        }
+        .test-info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+            color: #0c5460;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+        .chart-container {
+            height: 300px;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+        .progress-section {
+            margin: 20px 0;
+        }
+        .progress {
+            height: 25px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="test-container">
+            <h1 class="text-center mb-4">
+                <i class="fas fa-check-circle me-2"></i>
+                اختبار شامل لإصلاحات JavaScript
+            </h1>
+            
+            <div class="progress-section">
+                <h5>تقدم الاختبار</h5>
+                <div class="progress">
+                    <div class="progress-bar" id="testProgress" role="progressbar" style="width: 0%">0%</div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="fas fa-list-check me-2"></i>
+                                نتائج الاختبار الشامل
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="testResults">
+                                <div class="loading" id="loading">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">جاري الاختبار...</span>
+                                    </div>
+                                    <p class="mt-2">جاري اختبار جميع الإصلاحات...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="fas fa-chart-line me-2"></i>
+                                اختبار المكونات
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <button class="btn btn-primary w-100 mb-2" onclick="testPerformanceMonitor()">
+                                        <i class="fas fa-tachometer-alt me-2"></i>
+                                        مراقب الأداء
+                                    </button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btn btn-success w-100 mb-2" onclick="testMarketFunctions()">
+                                        <i class="fas fa-chart-bar me-2"></i>
+                                        وظائف السوق
+                                    </button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btn btn-info w-100 mb-2" onclick="testChartFunctions()">
+                                        <i class="fas fa-chart-pie me-2"></i>
+                                        الرسوم البيانية
+                                    </button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btn btn-warning w-100 mb-2" onclick="testAllFunctions()">
+                                        <i class="fas fa-play me-2"></i>
+                                        اختبار شامل
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="fas fa-chart-area me-2"></i>
+                                اختبار الرسوم البيانية
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>TASI Chart</h6>
+                                    <div class="chart-container">
+                                        <canvas id="tasiChart"></canvas>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Volume Chart</h6>
+                                    <div class="chart-container">
+                                        <canvas id="volumeChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <button class="btn btn-outline-primary" onclick="testChartInitialization()">
+                                        <i class="fas fa-play me-2"></i>
+                                        اختبار تهيئة الرسوم البيانية
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load JavaScript files -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="performance-monitor.js"></script>
+    <script src="assets/js/main-optimized.js"></script>
+    <script src="assets/js/market-dynamics.js"></script>
+    <script src="assets/js/ai-tools.js"></script>
+    <script src="assets/js/charts.js"></script>
+
+    <script>
+        // Test results storage
+        let testResults = [];
+        let totalTests = 0;
+        let completedTests = 0;
+        
+        function updateProgress() {
+            const progress = totalTests > 0 ? Math.round((completedTests / totalTests) * 100) : 0;
+            const progressBar = document.getElementById('testProgress');
+            if (progressBar) {
+                progressBar.style.width = progress + '%';
+                progressBar.textContent = progress + '%';
+            }
+        }
+        
+        function addTestResult(testName, status, message, details = null) {
+            const result = {
+                name: testName,
+                status: status,
+                message: message,
+                details: details,
+                timestamp: new Date().toISOString()
+            };
+            
+            testResults.push(result);
+            completedTests++;
+            updateProgress();
+            displayTestResult(result);
+        }
+        
+        function displayTestResult(result) {
+            const resultsContainer = document.getElementById('testResults');
+            const loading = document.getElementById('loading');
+            
+            if (loading) {
+                loading.style.display = 'none';
+            }
+            
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `test-result test-${result.status}`;
+            
+            const icon = result.status === 'success' ? 'check-circle' : 
+                        result.status === 'error' ? 'times-circle' : 
+                        result.status === 'warning' ? 'exclamation-triangle' : 'info-circle';
+            
+            resultDiv.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-${icon} me-2"></i>
+                    <strong>${result.name}</strong>
+                </div>
+                <p class="mb-1 mt-2">${result.message}</p>
+                ${result.details ? `<small class="text-muted">${result.details}</small>` : ''}
+                <small class="text-muted d-block mt-1">${new Date(result.timestamp).toLocaleTimeString('ar-SA')}</small>
+            `;
+            
+            resultsContainer.appendChild(resultDiv);
+        }
+        
+        function testPerformanceMonitor() {
+            totalTests += 4;
+            
+            try {
+                // Test if PerformanceMonitor is defined
+                if (typeof PerformanceMonitor === 'undefined') {
+                    addTestResult('PerformanceMonitor Constructor', 'error', 'PerformanceMonitor is not defined');
+                } else {
+                    addTestResult('PerformanceMonitor Constructor', 'success', 'PerformanceMonitor is defined');
+                }
+                
+                // Test if performanceMonitor instance exists
+                if (typeof window.performanceMonitor === 'undefined') {
+                    addTestResult('PerformanceMonitor Instance', 'error', 'performanceMonitor instance is not defined');
+                } else {
+                    addTestResult('PerformanceMonitor Instance', 'success', 'performanceMonitor instance is available');
+                }
+                
+                // Test performance timing methods
+                if (typeof window.performanceMonitor?.start === 'function' && 
+                    typeof window.performanceMonitor?.end === 'function') {
+                    addTestResult('PerformanceMonitor Methods', 'success', 'Performance timing methods are available');
+                } else {
+                    addTestResult('PerformanceMonitor Methods', 'error', 'Performance timing methods are missing');
+                }
+                
+                // Test metrics recording
+                if (window.performanceMonitor) {
+                    window.performanceMonitor.recordMetric('test_metric', 100);
+                    if (window.performanceMonitor.metrics.test_metric) {
+                        addTestResult('PerformanceMonitor Metrics', 'success', 'Metrics recording is working');
+                    } else {
+                        addTestResult('PerformanceMonitor Metrics', 'error', 'Metrics recording failed');
+                    }
+                } else {
+                    addTestResult('PerformanceMonitor Metrics', 'error', 'PerformanceMonitor not available');
+                }
+                
+            } catch (error) {
+                addTestResult('PerformanceMonitor Test', 'error', 'PerformanceMonitor test failed', error.message);
+            }
+        }
+        
+        function testMarketFunctions() {
+            totalTests += 6;
+            
+            try {
+                // Test if displayMarketOverview is defined
+                if (typeof displayMarketOverview === 'undefined') {
+                    addTestResult('displayMarketOverview Function', 'error', 'displayMarketOverview function is not defined');
+                } else {
+                    addTestResult('displayMarketOverview Function', 'success', 'displayMarketOverview function is available');
+                }
+                
+                // Test if initializeStockSelector is defined
+                if (typeof initializeStockSelector === 'undefined') {
+                    addTestResult('initializeStockSelector Function', 'error', 'initializeStockSelector function is not defined');
+                } else {
+                    addTestResult('initializeStockSelector Function', 'success', 'initializeStockSelector function is available');
+                }
+                
+                // Test if updateStockSelector is defined
+                if (typeof updateStockSelector === 'undefined') {
+                    addTestResult('updateStockSelector Function', 'error', 'updateStockSelector function is not defined');
+                } else {
+                    addTestResult('updateStockSelector Function', 'success', 'updateStockSelector function is available');
+                }
+                
+                // Test if analyzeStock is defined
+                if (typeof analyzeStock === 'undefined') {
+                    addTestResult('analyzeStock Function', 'error', 'analyzeStock function is not defined');
+                } else {
+                    addTestResult('analyzeStock Function', 'success', 'analyzeStock function is available');
+                }
+                
+                // Test if ensureContentVisibilityOptimized is defined
+                if (typeof ensureContentVisibilityOptimized === 'undefined') {
+                    addTestResult('ensureContentVisibilityOptimized Function', 'error', 'ensureContentVisibilityOptimized function is not defined');
+                } else {
+                    addTestResult('ensureContentVisibilityOptimized Function', 'success', 'ensureContentVisibilityOptimized function is available');
+                }
+                
+                // Test API_ENDPOINTS
+                if (typeof API_ENDPOINTS === 'undefined') {
+                    addTestResult('API_ENDPOINTS', 'error', 'API_ENDPOINTS is not defined');
+                } else {
+                    addTestResult('API_ENDPOINTS', 'success', 'API_ENDPOINTS is available');
+                }
+                
+            } catch (error) {
+                addTestResult('Market Functions Test', 'error', 'Market functions test failed', error.message);
+            }
+        }
+        
+        function testChartFunctions() {
+            totalTests += 5;
+            
+            try {
+                // Test if Chart.js is loaded
+                if (typeof Chart === 'undefined') {
+                    addTestResult('Chart.js Library', 'error', 'Chart.js library is not loaded');
+                } else {
+                    addTestResult('Chart.js Library', 'success', 'Chart.js library is loaded');
+                }
+                
+                // Test if MarketDynamics is defined
+                if (typeof MarketDynamics === 'undefined') {
+                    addTestResult('MarketDynamics Class', 'error', 'MarketDynamics class is not defined');
+                } else {
+                    addTestResult('MarketDynamics Class', 'success', 'MarketDynamics class is available');
+                }
+                
+                // Test if initializeTASIChart is defined
+                if (typeof initializeTASIChart === 'undefined') {
+                    addTestResult('initializeTASIChart Function', 'error', 'initializeTASIChart function is not defined');
+                } else {
+                    addTestResult('initializeTASIChart Function', 'success', 'initializeTASIChart function is available');
+                }
+                
+                // Test if initializeAnalysisChart is defined
+                if (typeof initializeAnalysisChart === 'undefined') {
+                    addTestResult('initializeAnalysisChart Function', 'error', 'initializeAnalysisChart function is not defined');
+                } else {
+                    addTestResult('initializeAnalysisChart Function', 'success', 'initializeAnalysisChart function is available');
+                }
+                
+                // Test chart update functions
+                if (typeof window.tasiChart !== 'undefined') {
+                    addTestResult('TASI Chart', 'success', 'TASI chart is initialized');
+                } else {
+                    addTestResult('TASI Chart', 'warning', 'TASI chart is not initialized (may be normal)');
+                }
+                
+            } catch (error) {
+                addTestResult('Chart Functions Test', 'error', 'Chart functions test failed', error.message);
+            }
+        }
+        
+        function testChartInitialization() {
+            totalTests += 3;
+            
+            try {
+                // Test TASI chart initialization
+                if (typeof initializeTASIChart === 'function') {
+                    initializeTASIChart();
+                    if (window.tasiChart) {
+                        addTestResult('TASI Chart Initialization', 'success', 'TASI chart initialized successfully');
+                    } else {
+                        addTestResult('TASI Chart Initialization', 'error', 'TASI chart initialization failed');
+                    }
+                } else {
+                    addTestResult('TASI Chart Initialization', 'error', 'initializeTASIChart function not available');
+                }
+                
+                // Test Volume chart initialization
+                if (typeof window.MarketDynamics !== 'undefined') {
+                    const marketDynamics = new MarketDynamics();
+                    if (typeof marketDynamics.initializeVolumeChart === 'function') {
+                        addTestResult('Volume Chart Function', 'success', 'Volume chart initialization function available');
+                    } else {
+                        addTestResult('Volume Chart Function', 'error', 'Volume chart initialization function missing');
+                    }
+                } else {
+                    addTestResult('Volume Chart Function', 'warning', 'MarketDynamics not available for volume chart test');
+                }
+                
+                // Test chart data structure
+                if (window.tasiChart && window.tasiChart.data && window.tasiChart.data.datasets) {
+                    addTestResult('Chart Data Structure', 'success', 'Chart data structure is valid');
+                } else {
+                    addTestResult('Chart Data Structure', 'warning', 'Chart data structure not available or invalid');
+                }
+                
+            } catch (error) {
+                addTestResult('Chart Initialization Test', 'error', 'Chart initialization test failed', error.message);
+            }
+        }
+        
+        function testAllFunctions() {
+            // Clear previous results
+            document.getElementById('testResults').innerHTML = '';
+            testResults = [];
+            totalTests = 0;
+            completedTests = 0;
+            
+            // Show loading
+            const loading = document.getElementById('loading');
+            loading.style.display = 'block';
+            
+            // Run all tests
+            setTimeout(() => {
+                testPerformanceMonitor();
+                setTimeout(() => {
+                    testMarketFunctions();
+                    setTimeout(() => {
+                        testChartFunctions();
+                        setTimeout(() => {
+                            testChartInitialization();
+                            
+                            // Summary
+                            const successCount = testResults.filter(r => r.status === 'success').length;
+                            const errorCount = testResults.filter(r => r.status === 'error').length;
+                            const warningCount = testResults.filter(r => r.status === 'warning').length;
+                            const infoCount = testResults.filter(r => r.status === 'info').length;
+                            
+                            addTestResult('Test Summary', 
+                                errorCount === 0 ? 'success' : 'warning',
+                                `تم إكمال ${testResults.length} اختبار: ${successCount} نجح، ${errorCount} فشل، ${warningCount} تحذير، ${infoCount} معلومات`
+                            );
+                        }, 500);
+                    }, 500);
+                }, 500);
+            }, 500);
+        }
+        
+        // Auto-run tests on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                testAllFunctions();
+            }, 1000);
+        });
+    </script>
+</body>
+</html> 

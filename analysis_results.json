@@ -1,0 +1,332 @@
+{
+  "الراجحي": {
+    "trend_analysis": {
+      "trend": "صاعد",
+      "trend_strength": "قوي",
+      "rsi": 62.33,
+      "rsi_signal": "محايد",
+      "current_price": 95.3,
+      "sma_20": 94.75,
+      "sma_50": 94.42
+    },
+    "price_prediction": {
+      "predicted_price": 95.07,
+      "confidence": 65.0,
+      "current_price": 95.3,
+      "predicted_change": -0.23,
+      "predicted_change_percent": -0.24,
+      "days_ahead": 7,
+      "method": "simple_trend"
+    },
+    "risk_analysis": {
+      "risk_level": "متوسط",
+      "volatility": 21.69,
+      "var_95": -1.93,
+      "support_level": 92.8,
+      "resistance_level": 96.1,
+      "current_price": 95.3
+    },
+    "technical_indicators": {
+      "rsi": 62.33,
+      "macd": -0.0429,
+      "bb_position": 0.7
+    }
+  },
+  "سابك": {
+    "trend_analysis": {
+      "trend": "صاعد",
+      "trend_strength": "قوي",
+      "rsi": 71.58,
+      "rsi_signal": "مفرط في الشراء",
+      "current_price": 59.2,
+      "sma_20": 56.09,
+      "sma_50": 55.58
+    },
+    "price_prediction": {
+      "predicted_price": 60.92,
+      "confidence": 65.0,
+      "current_price": 59.2,
+      "predicted_change": 1.72,
+      "predicted_change_percent": 2.9,
+      "days_ahead": 7,
+      "method": "simple_trend"
+    },
+    "risk_analysis": {
+      "risk_level": "متوسط",
+      "volatility": 16.01,
+      "var_95": -1.8,
+      "support_level": 53.0,
+      "resistance_level": 59.3,
+      "current_price": 59.2
+    },
+    "technical_indicators": {
+      "rsi": 71.58,
+      "macd": 0.7297,
+      "bb_position": 0.98
+    }
+  },
+  "الاتصالات السعودية": {
+    "trend_analysis": {
+      "trend": "صاعد",
+      "trend_strength": "قوي",
+      "rsi": 65.01,
+      "rsi_signal": "محايد",
+      "current_price": 42.86,
+      "sma_20": 42.05,
+      "sma_50": 41.84
+    },
+    "price_prediction": {
+      "predicted_price": 43.39,
+      "confidence": 65.0,
+      "current_price": 42.86,
+      "predicted_change": 0.53,
+      "predicted_change_percent": 1.23,
+      "days_ahead": 7,
+      "method": "simple_trend"
+    },
+    "risk_analysis": {
+      "risk_level": "متوسط",
+      "volatility": 19.0,
+      "var_95": -1.5,
+      "support_level": 40.78,
+      "resistance_level": 43.22,
+      "current_price": 42.86
+    },
+    "technical_indicators": {
+      "rsi": 65.01,
+      "macd": 0.2715,
+      "bb_position": 0.87
+    }
+  },
+  "البنك الأهلي": {
+    "trend_analysis": {
+      "trend": "صاعد",
+      "trend_strength": "قوي",
+      "rsi": 57.04,
+      "rsi_signal": "محايد",
+      "current_price": 35.96,
+      "sma_20": 35.94,
+      "sma_50": 35.33
+    },
+    "price_prediction": {
+      "predicted_price": 36.07,
+      "confidence": 65.0,
+      "current_price": 35.96,
+      "predicted_change": 0.11,
+      "predicted_change_percent": 0.32,
+      "days_ahead": 7,
+      "method": "simple_trend"
+    },
+    "risk_analysis": {
+      "risk_level": "متوسط",
+      "volatility": 21.59,
+      "var_95": -2.0,
+      "support_level": 34.94,
+      "resistance_level": 36.52,
+      "current_price": 35.96
+    },
+    "technical_indicators": {
+      "rsi": 57.04,
+      "macd": 0.136,
+      "bb_position": 0.51
+    }
+  },
+  "الرياض": {
+    "trend_analysis": {
+      "trend": "صاعد",
+      "trend_strength": "ضعيف",
+      "rsi": 69.61,
+      "rsi_signal": "محايد",
+      "current_price": 124.7,
+      "sma_20": 122.28,
+      "sma_50": 123.74
+    },
+    "price_prediction": {
+      "predicted_price": 124.29,
+      "confidence": 65.0,
+      "current_price": 124.7,
+      "predicted_change": -0.41,
+      "predicted_change_percent": -0.33,
+      "days_ahead": 7,
+      "method": "simple_trend"
+    },
+    "risk_analysis": {
+      "risk_level": "عالي",
+      "volatility": 29.93,
+      "var_95": -2.64,
+      "support_level": 118.4,
+      "resistance_level": 126.0,
+      "current_price": 124.7
+    },
+    "technical_indicators": {
+      "rsi": 69.61,
+      "macd": -0.3932,
+      "bb_position": 0.83
+    }
+  },
+  "الزيت العربية": {
+    "trend_analysis": {
+      "trend": "صاعد",
+      "trend_strength": "ضعيف",
+      "rsi": 48.55,
+      "rsi_signal": "محايد",
+      "current_price": 24.13,
+      "sma_20": 24.13,
+      "sma_50": 24.47
+    },
+    "price_prediction": {
+      "predicted_price": 24.14,
+      "confidence": 65.0,
+      "current_price": 24.13,
+      "predicted_change": 0.01,
+      "predicted_change_percent": 0.05,
+      "days_ahead": 7,
+      "method": "simple_trend"
+    },
+    "risk_analysis": {
+      "risk_level": "منخفض",
+      "volatility": 13.05,
+      "var_95": -1.27,
+      "support_level": 23.81,
+      "resistance_level": 24.41,
+      "current_price": 24.13
+    },
+    "technical_indicators": {
+      "rsi": 48.55,
+      "macd": -0.1089,
+      "bb_position": 0.51
+    }
+  },
+  "كيمانول": {
+    "trend_analysis": {
+      "trend": "صاعد",
+      "trend_strength": "ضعيف",
+      "rsi": 72.57,
+      "rsi_signal": "مفرط في الشراء",
+      "current_price": 5.02,
+      "sma_20": 4.69,
+      "sma_50": 4.79
+    },
+    "price_prediction": {
+      "predicted_price": 5.18,
+      "confidence": 65.0,
+      "current_price": 5.02,
+      "predicted_change": 0.16,
+      "predicted_change_percent": 3.19,
+      "days_ahead": 7,
+      "method": "simple_trend"
+    },
+    "risk_analysis": {
+      "risk_level": "متوسط",
+      "volatility": 24.18,
+      "var_95": -2.26,
+      "support_level": 4.48,
+      "resistance_level": 5.14,
+      "current_price": 5.02
+    },
+    "technical_indicators": {
+      "rsi": 72.57,
+      "macd": 0.0188,
+      "bb_position": 1.02
+    }
+  },
+  "الخزف السعودي": {
+    "trend_analysis": {
+      "trend": "صاعد",
+      "trend_strength": "قوي",
+      "rsi": 52.14,
+      "rsi_signal": "محايد",
+      "current_price": 30.44,
+      "sma_20": 30.42,
+      "sma_50": 29.96
+    },
+    "price_prediction": {
+      "predicted_price": 29.75,
+      "confidence": 65.0,
+      "current_price": 30.44,
+      "predicted_change": -0.69,
+      "predicted_change_percent": -2.27,
+      "days_ahead": 7,
+      "method": "simple_trend"
+    },
+    "risk_analysis": {
+      "risk_level": "عالي",
+      "volatility": 35.73,
+      "var_95": -2.89,
+      "support_level": 29.35,
+      "resistance_level": 32.84,
+      "current_price": 30.44
+    },
+    "technical_indicators": {
+      "rsi": 52.14,
+      "macd": -0.1366,
+      "bb_position": 0.51
+    }
+  },
+  "اللجين": {
+    "trend_analysis": {
+      "trend": "هابط",
+      "trend_strength": "قوي",
+      "rsi": 45.2,
+      "rsi_signal": "محايد",
+      "current_price": 33.82,
+      "sma_20": 33.9,
+      "sma_50": 34.26
+    },
+    "price_prediction": {
+      "predicted_price": 33.61,
+      "confidence": 65.0,
+      "current_price": 33.82,
+      "predicted_change": -0.21,
+      "predicted_change_percent": -0.62,
+      "days_ahead": 7,
+      "method": "simple_trend"
+    },
+    "risk_analysis": {
+      "risk_level": "عالي",
+      "volatility": 26.92,
+      "var_95": -2.55,
+      "support_level": 32.32,
+      "resistance_level": 35.22,
+      "current_price": 33.82
+    },
+    "technical_indicators": {
+      "rsi": 45.2,
+      "macd": -0.3352,
+      "bb_position": 0.47
+    }
+  },
+  "الأنابيب": {
+    "trend_analysis": {
+      "trend": "صاعد",
+      "trend_strength": "قوي",
+      "rsi": 58.99,
+      "rsi_signal": "محايد",
+      "current_price": 35.0,
+      "sma_20": 34.24,
+      "sma_50": 32.33
+    },
+    "price_prediction": {
+      "predicted_price": 35.53,
+      "confidence": 65.0,
+      "current_price": 35.0,
+      "predicted_change": 0.53,
+      "predicted_change_percent": 1.51,
+      "days_ahead": 7,
+      "method": "simple_trend"
+    },
+    "risk_analysis": {
+      "risk_level": "عالي",
+      "volatility": 37.61,
+      "var_95": -3.08,
+      "support_level": 32.24,
+      "resistance_level": 36.32,
+      "current_price": 35.0
+    },
+    "technical_indicators": {
+      "rsi": 58.99,
+      "macd": 0.7228,
+      "bb_position": 0.7
+    }
+  }
+}

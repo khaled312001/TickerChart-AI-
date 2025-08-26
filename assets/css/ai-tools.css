@@ -1,0 +1,547 @@
+/* AI Tools Styles - Modal and Notification System */
+/* أنماط أدوات الذكاء الاصطناعي - نظام النوافذ المنبثقة والإشعارات */
+
+/* AI Modal Styles */
+.ai-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Modal positioned near AI tools */
+.ai-modal-overlay.near-tools {
+    align-items: flex-start;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.ai-modal-overlay.near-tools .ai-modal {
+    margin-top: 0;
+    margin-bottom: 20px;
+    animation: slideInFromTop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes slideInFromTop {
+    from {
+        transform: translateY(-40px) scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Enhanced modal positioning for mobile */
+@media (max-width: 768px) {
+    .ai-modal-overlay.near-tools {
+        padding: 10px;
+        align-items: flex-start;
+    }
+    
+    .ai-modal-overlay.near-tools .ai-modal {
+        width: 95%;
+        max-width: none;
+        margin-top: 10px;
+    }
+}
+
+/* Smooth positioning transition */
+.ai-modal-overlay.positioning {
+    transition: padding-top 0.3s ease-out;
+}
+
+.ai-modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.ai-modal {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow: hidden;
+    transform: scale(0.9) translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.ai-modal-overlay.show .ai-modal {
+    transform: scale(1) translateY(0);
+}
+
+.ai-modal-header {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    padding: 20px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ai-modal-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.ai-modal-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.ai-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.ai-modal-body {
+    padding: 25px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.ai-modal-footer {
+    padding: 20px 25px;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Analysis Content Styles */
+.analysis-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.analysis-description {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 4px solid #3b82f6;
+}
+
+.analysis-description p {
+    margin: 0;
+    color: #1e3a8a;
+    font-weight: 500;
+}
+
+.analysis-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #1e3a8a;
+    font-size: 0.9rem;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+}
+
+.form-check-input {
+    width: 18px;
+    height: 18px;
+    accent-color: #3b82f6;
+}
+
+.form-check-label {
+    font-size: 0.9rem;
+    color: #374151;
+    cursor: pointer;
+}
+
+/* Stock Input Styles */
+.portfolio-stocks {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.stock-input {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    align-items: center;
+}
+
+.stock-input input {
+    padding: 8px 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.stock-input input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    outline: none;
+}
+
+/* Risk Level Slider */
+.risk-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin-top: 5px;
+}
+
+.form-range {
+    height: 6px;
+    border-radius: 3px;
+    background: #e2e8f0;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.form-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #3b82f6;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.form-range::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #3b82f6;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Stock Info Styles */
+.stock-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.info-item .label {
+    font-size: 0.8rem;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.info-item .value {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #1e3a8a;
+}
+
+/* Chart Preview Styles */
+.analysis-preview,
+.prediction-preview,
+.risk-preview,
+.portfolio-preview,
+.stock-preview {
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 15px;
+    border: 2px dashed #cbd5e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 120px;
+}
+
+.analysis-preview canvas,
+.prediction-preview canvas,
+.risk-preview canvas,
+.portfolio-preview canvas,
+.stock-preview canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Notification Styles */
+.ai-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    padding: 15px 20px;
+    z-index: 10000;
+    transform: translateX(100%);
+    transition: all 0.3s ease;
+    max-width: 350px;
+    border-left: 4px solid #3b82f6;
+}
+
+.ai-notification.show {
+    transform: translateX(0);
+}
+
+.ai-notification-success {
+    border-left-color: #10b981;
+}
+
+.ai-notification-error {
+    border-left-color: #ef4444;
+}
+
+.ai-notification-warning {
+    border-left-color: #f59e0b;
+}
+
+.ai-notification-info {
+    border-left-color: #3b82f6;
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.notification-content i {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.ai-notification-success .notification-content i {
+    color: #10b981;
+}
+
+.ai-notification-error .notification-content i {
+    color: #ef4444;
+}
+
+.ai-notification-warning .notification-content i {
+    color: #f59e0b;
+}
+
+.ai-notification-info .notification-content i {
+    color: #3b82f6;
+}
+
+.notification-content span {
+    flex: 1;
+    font-size: 0.9rem;
+    color: #374151;
+    line-height: 1.4;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.notification-close:hover {
+    background: #f3f4f6;
+    color: #6b7280;
+}
+
+/* Enhanced AI Tools Cards */
+.card[data-ai-tool] {
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.card[data-ai-tool]:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    border-color: rgba(59, 130, 246, 0.2);
+}
+
+.card[data-ai-tool] .card-body {
+    position: relative;
+    overflow: hidden;
+}
+
+.card[data-ai-tool]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.card[data-ai-tool]:hover::before {
+    transform: scaleX(1);
+}
+
+/* Loading States */
+.ai-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+}
+
+.ai-loading .spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #e2e8f0;
+    border-top: 2px solid #3b82f6;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .ai-modal {
+        width: 95%;
+        margin: 10px;
+    }
+
+    .ai-modal-header {
+        padding: 15px 20px;
+    }
+
+    .ai-modal-body {
+        padding: 20px;
+    }
+
+    .ai-modal-footer {
+        padding: 15px 20px;
+        flex-direction: column;
+    }
+
+    .stock-input {
+        grid-template-columns: 1fr;
+    }
+
+    .ai-notification {
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .ai-modal {
+        background: #1f2937;
+        color: #f9fafb;
+    }
+
+    .ai-modal-header {
+        background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+    }
+
+    .ai-modal-footer {
+        background: #374151;
+        border-top-color: #4b5563;
+    }
+
+    .analysis-description {
+        background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+        border-left-color: #3b82f6;
+    }
+
+    .analysis-description p {
+        color: #f9fafb;
+    }
+
+    .stock-info {
+        background: #374151;
+    }
+
+    .info-item .value {
+        color: #f9fafb;
+    }
+
+    .analysis-preview,
+    .prediction-preview,
+    .risk-preview,
+    .portfolio-preview,
+    .stock-preview {
+        background: #374151;
+        border-color: #6b7280;
+    }
+
+    .ai-notification {
+        background: #1f2937;
+        color: #f9fafb;
+    }
+
+    .notification-content span {
+        color: #f9fafb;
+    }
+
+    .notification-close:hover {
+        background: #374151;
+        color: #d1d5db;
+    }
+} 

@@ -1,0 +1,333 @@
+/* Enhanced Market Overview Design */
+.market-overview-enhanced {
+    background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(107, 114, 128, 0.15);
+}
+
+.market-overview-enhanced::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    pointer-events: none;
+}
+
+.market-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.stat-card-enhanced {
+    background: rgba(248, 250, 252, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(226, 232, 240, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+.stat-card-enhanced:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.stat-card-enhanced.updating {
+    animation: pulse-update 1.5s ease-in-out;
+}
+
+@keyframes pulse-update {
+    0% { box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); }
+    50% { box-shadow: 0 8px 32px rgba(107, 114, 128, 0.25); }
+    100% { box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); }
+}
+
+.stat-icon-enhanced {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 1.5rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-icon-enhanced::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+}
+
+.stat-card-enhanced:hover .stat-icon-enhanced::before {
+    transform: translateX(100%);
+}
+
+.stat-icon-enhanced.companies { background: linear-gradient(135deg, #6b7280, #9ca3af); }
+.stat-icon-enhanced.up { background: linear-gradient(135deg, #10b981, #34d399); }
+.stat-icon-enhanced.down { background: linear-gradient(135deg, #ef4444, #f87171); }
+.stat-icon-enhanced.volume { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+.stat-icon-enhanced.market-cap { background: linear-gradient(135deg, #06b6d4, #67e8f9); }
+
+.stat-number-enhanced {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+    position: relative;
+}
+
+.stat-number-enhanced.animating {
+    animation: number-change 0.8s ease-out;
+}
+
+@keyframes number-change {
+    0% { transform: scale(1.1); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.stat-label-enhanced {
+    color: #718096;
+    font-weight: 500;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.stat-trend {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.trend-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.trend-indicator.positive {
+    background: rgba(34, 197, 94, 0.1);
+    color: #16a34a;
+}
+
+.trend-indicator.negative {
+    background: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
+}
+
+.trend-indicator.neutral {
+    background: rgba(107, 114, 128, 0.1);
+    color: #6b7280;
+}
+
+/* Live Status Indicator */
+.live-status {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(248, 250, 252, 0.9);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #374151;
+    border: 1px solid rgba(226, 232, 240, 0.5);
+}
+
+.live-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    animation: live-pulse 2s infinite;
+}
+
+@keyframes live-pulse {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.2); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+/* Timer Display */
+.refresh-timer {
+    background: rgba(248, 250, 252, 0.9);
+    border-radius: 25px;
+    padding: 0.75rem 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 500;
+    color: #374151;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(226, 232, 240, 0.3);
+}
+
+.refresh-timer.urgent {
+    background: rgba(239, 68, 68, 0.1);
+    border: 2px solid #ef4444;
+    animation: urgent-pulse 1s infinite;
+}
+
+@keyframes urgent-pulse {
+    0% { box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2); }
+    50% { box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4); }
+    100% { box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2); }
+}
+
+.timer-icon {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #6b7280;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.timer-text {
+    font-size: 0.9rem;
+    color: #6b7280;
+    font-weight: 600;
+}
+
+/* Market Status Badge */
+.market-status-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.market-status-badge.open {
+    background: linear-gradient(135deg, #10b981, #34d399);
+    color: white;
+}
+
+.market-status-badge.closed {
+    background: linear-gradient(135deg, #ef4444, #f87171);
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .market-overview-enhanced {
+        padding: 1.5rem;
+        border-radius: 16px;
+    }
+    
+    .market-stats-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .stat-card-enhanced {
+        padding: 1rem;
+    }
+    
+    .stat-number-enhanced {
+        font-size: 1.5rem;
+    }
+    
+    .stat-icon-enhanced {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+}
+
+/* Loading States */
+.stat-card-enhanced.loading {
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card-enhanced.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    animation: loading-shimmer 1.5s infinite;
+}
+
+@keyframes loading-shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* Enhanced Typography */
+.market-title-enhanced {
+    color: white;
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.market-subtitle-enhanced {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 400;
+}
+
+/* Animation delays for staggered effect */
+.stat-card-enhanced:nth-child(1) { animation-delay: 0.1s; }
+.stat-card-enhanced:nth-child(2) { animation-delay: 0.2s; }
+.stat-card-enhanced:nth-child(3) { animation-delay: 0.3s; }
+.stat-card-enhanced:nth-child(4) { animation-delay: 0.4s; }
+.stat-card-enhanced:nth-child(5) { animation-delay: 0.5s; }
+
+/* Fade in animation */
+.fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+} 

@@ -1,0 +1,33 @@
+{
+    "success": true,
+    "data": {
+        "per_stock": [
+            {
+                "name": "الراجحي",
+                "symbol": "1120.SR",
+                "weight": 0.5,
+                "current_price": 96.1,
+                "expected_return": 11.15,
+                "volatility": 19.56,
+                "trend": "صاعد"
+            },
+            {
+                "name": "سابك",
+                "symbol": "2010.SR",
+                "weight": 0.5,
+                "current_price": 57.5,
+                "expected_return": 3.16,
+                "volatility": 18.87,
+                "trend": "صاعد"
+            }
+        ],
+        "expected_return": 7.16,
+        "risk": 1.09,
+        "sharpe": 6.58,
+        "diversification": 0.5,
+        "recommendations": [
+            "تقليل الوزن في الراجحي لأنه يتجاوز 40% من المحفظة"
+        ]
+    },
+    "timestamp": "2025-08-20T18:18:40.014965"
+}

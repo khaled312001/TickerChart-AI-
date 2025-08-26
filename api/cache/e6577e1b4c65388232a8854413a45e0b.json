@@ -1,0 +1,39 @@
+{
+    "success": true,
+    "data": {
+        "stock_name": "سابك",
+        "symbol": "2010.SR",
+        "trend_analysis": {
+            "trend": "صاعد",
+            "trend_strength": "قوي",
+            "rsi": 75.13,
+            "rsi_signal": "مفرط في الشراء",
+            "current_price": 57.5,
+            "sma_20": 55.18,
+            "sma_50": 54.32
+        },
+        "price_prediction": {
+            "predicted_price": 59.32,
+            "confidence": 65,
+            "current_price": 57.5,
+            "predicted_change": 1.82,
+            "predicted_change_percent": 3.16,
+            "days_ahead": 7,
+            "method": "simple_trend"
+        },
+        "risk_analysis": {
+            "risk_level": "متوسط",
+            "volatility": 16,
+            "var_95": -1.8,
+            "support_level": 52.14,
+            "resistance_level": 57.8,
+            "current_price": 57.5
+        },
+        "technical_indicators": {
+            "rsi": 75.13,
+            "macd": 0.8639,
+            "bb_position": 0.87
+        }
+    },
+    "timestamp": "2025-08-20T18:12:26.835243"
+}
