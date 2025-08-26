@@ -1,15 +1,16 @@
 {
   "version": 2,
-  "name": "tickerchart-ai",
-  "functions": {
-    "api/*.js": {
-      "runtime": "nodejs18.x"
+  "name": "tickerchart-ai-server",
+  "builds": [
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
     }
-  },
+  ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/api/$1"
+      "dest": "/server.js"
     },
     {
       "src": "/assets/(.*)",
@@ -21,7 +22,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/server.js"
     }
   ]
 } 
