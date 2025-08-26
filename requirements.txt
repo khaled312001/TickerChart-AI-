@@ -1,16 +1,16 @@
 # Enhanced AI Server Dependencies
-flask==2.3.3
-flask-cors==4.0.0
-requests==2.31.0
-numpy==1.24.3
-pandas==2.0.3
-scikit-learn==1.3.0
-matplotlib==3.7.2
-seaborn==0.12.2
-python-dateutil==2.8.2
-yfinance>=0.1.70
-xgboost>=1.5.0
+flask>=2.3.0
+flask-cors>=4.0.0
+requests>=2.31.0
+numpy>=1.26.0
+pandas>=2.1.0
+scikit-learn>=1.3.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+python-dateutil>=2.8.0
+yfinance>=0.2.0
+xgboost>=1.7.0
 
 # Optional ML libraries for advanced features
-# tensorflow>=2.8.0
-# torch>=1.10.0 
+# tensorflow>=2.13.0
+# torch>=2.0.0 
