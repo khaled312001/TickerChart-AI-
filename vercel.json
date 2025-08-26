@@ -1,11 +1,16 @@
 {
   "version": 2,
   "name": "tickerchart-ai",
-  "functions": {
-    "api/**/*.php": {
-      "runtime": "vercel-php@0.6.0"
+  "builds": [
+    {
+      "src": "api/**/*.php",
+      "use": "vercel-php@0.6.0"
+    },
+    {
+      "src": "*.php",
+      "use": "vercel-php@0.6.0"
     }
-  },
+  ],
   "routes": [
     {
       "src": "/api/(.*)",
@@ -23,6 +28,5 @@
       "src": "/(.*)",
       "dest": "/index.php"
     }
-  ],
-  "outputDirectory": "."
+  ]
 } 
