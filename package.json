@@ -1,0 +1,31 @@
+{
+  "name": "tickerchart-ai",
+  "version": "1.0.0",
+  "description": "TickerChart AI - Advanced Saudi Stock Market Analysis Platform",
+  "main": "index.php",
+  "scripts": {
+    "dev": "php -S localhost:8000",
+    "build": "echo 'Build completed'",
+    "start": "php -S localhost:8000"
+  },
+  "keywords": [
+    "saudi-stock-market",
+    "ai-analysis",
+    "tickerchart",
+    "php",
+    "javascript",
+    "chartjs"
+  ],
+  "author": "المهندس خالد أحمد حجاج",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/khaled312001/TickerChart-AI-.git"
+  },
+  "homepage": "https://tickerchart-ai.vercel.app"
+} 
