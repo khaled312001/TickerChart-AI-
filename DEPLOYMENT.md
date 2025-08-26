@@ -19,7 +19,7 @@
 5. في إعدادات المشروع:
    - **Framework Preset**: Other
    - **Root Directory**: `./`
-   - **Build Command**: `echo "Build completed"`
+   - **Build Command**: (اتركه فارغاً)
    - **Output Directory**: `./`
 6. اضغط على "Deploy"
 
