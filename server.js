@@ -144,6 +144,11 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// Serve static files
+app.use('/assets', express.static('assets'));
+app.use('/css', express.static('assets/css'));
+app.use('/js', express.static('assets/js'));
+
 // API routes for compatibility
 app.get('/api/index', (req, res) => {
     res.json({ message: 'API is running' });
