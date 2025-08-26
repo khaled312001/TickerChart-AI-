@@ -141,7 +141,7 @@ app.get('/api/live-market-data', async (req, res) => {
 
 // Serve main page
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.php'));
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // API routes for compatibility
