@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TickerChart AI - تحليل الأسواق المالية السعودية</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/market-dynamics.css">
+    <link rel="stylesheet" href="assets/css/ai-tools.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">📈 TickerChart AI</h1>
+            <nav class="nav">
+                <a href="#market" class="nav-link">الأسواق</a>
+                <a href="#analysis" class="nav-link">التحليل</a>
+                <a href="#ai-tools" class="nav-link">أدوات الذكاء الاصطناعي</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <!-- Market Overview Section -->
+        <section id="market" class="section market-section">
+            <div class="container">
+                <h2 class="section-title">نظرة عامة على السوق</h2>
+                <div class="market-grid">
+                    <div class="market-card">
+                        <h3>TASI</h3>
+                        <div class="price" id="tasi-price">--</div>
+                        <div class="change" id="tasi-change">--</div>
+                    </div>
+                    <div class="market-card">
+                        <h3>البنوك</h3>
+                        <div class="price" id="banking-price">--</div>
+                        <div class="change" id="banking-change">--</div>
+                    </div>
+                    <div class="market-card">
+                        <h3>الاتصالات</h3>
+                        <div class="price" id="telecom-price">--</div>
+                        <div class="change" id="telecom-change">--</div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="marketChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Analysis Section -->
+        <section id="analysis" class="section analysis-section">
+            <div class="container">
+                <h2 class="section-title">تحليل الذكاء الاصطناعي</h2>
+                <div class="analysis-grid">
+                    <div class="analysis-card">
+                        <h3>تحليل المشاعر</h3>
+                        <div class="sentiment" id="sentiment-analysis">--</div>
+                    </div>
+                    <div class="analysis-card">
+                        <h3>التوصية</h3>
+                        <div class="recommendation" id="ai-recommendation">--</div>
+                    </div>
+                    <div class="analysis-card">
+                        <h3>مستوى الثقة</h3>
+                        <div class="confidence" id="confidence-level">--</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Tools Section -->
+        <section id="ai-tools" class="section ai-tools-section">
+            <div class="container">
+                <h2 class="section-title">أدوات الذكاء الاصطناعي</h2>
+                <div class="tools-grid">
+                    <div class="tool-card">
+                        <h3>محلل الأسهم</h3>
+                        <input type="text" id="stock-symbol" placeholder="أدخل رمز السهم" class="tool-input">
+                        <button onclick="analyzeStock()" class="tool-button">تحليل</button>
+                        <div id="stock-analysis-result" class="tool-result"></div>
+                    </div>
+                    <div class="tool-card">
+                        <h3>مؤشرات القطاعات</h3>
+                        <button onclick="getSectorIndicators()" class="tool-button">عرض المؤشرات</button>
+                        <div id="sector-indicators-result" class="tool-result"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 TickerChart AI. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/charts.js"></script>
+    <script src="assets/js/ai-tools.js"></script>
+    <script>
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            loadMarketData();
+            loadAIAnalysis();
+            initializeCharts();
+        });
+
+        // Load market data
+        async function loadMarketData() {
+            try {
+                const response = await fetch('/api/market-data?symbol=TASI');
+                const data = await response.json();
+                
+                document.getElementById('tasi-price').textContent = data.price.toFixed(2);
+                document.getElementById('tasi-change').textContent = 
+                    (data.change > 0 ? '+' : '') + data.change.toFixed(2) + '%';
+                document.getElementById('tasi-change').className = 
+                    'change ' + (data.change >= 0 ? 'positive' : 'negative');
+            } catch (error) {
+                console.error('Error loading market data:', error);
+            }
+        }
+
+        // Load AI analysis
+        async function loadAIAnalysis() {
+            try {
+                const response = await fetch('/api/ai-analysis?symbol=TASI');
+                const data = await response.json();
+                
+                document.getElementById('sentiment-analysis').textContent = data.sentiment;
+                document.getElementById('ai-recommendation').textContent = data.recommendation;
+                document.getElementById('confidence-level').textContent = data.confidence.toFixed(1) + '%';
+            } catch (error) {
+                console.error('Error loading AI analysis:', error);
+            }
+        }
+
+        // Analyze stock
+        async function analyzeStock() {
+            const symbol = document.getElementById('stock-symbol').value;
+            if (!symbol) {
+                alert('يرجى إدخال رمز السهم');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/ai-analysis?symbol=${symbol}`);
+                const data = await response.json();
+                
+                const resultDiv = document.getElementById('stock-analysis-result');
+                resultDiv.innerHTML = `
+                    <div class="analysis-item">
+                        <strong>المشاعر:</strong> ${data.sentiment}
+                    </div>
+                    <div class="analysis-item">
+                        <strong>التوصية:</strong> ${data.recommendation}
+                    </div>
+                    <div class="analysis-item">
+                        <strong>مستوى الثقة:</strong> ${data.confidence.toFixed(1)}%
+                    </div>
+                    <div class="analysis-item">
+                        <strong>التحليل:</strong> ${data.analysis}
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error analyzing stock:', error);
+                document.getElementById('stock-analysis-result').innerHTML = 
+                    '<div class="error">خطأ في تحليل السهم</div>';
+            }
+        }
+
+        // Get sector indicators
+        async function getSectorIndicators() {
+            try {
+                const response = await fetch('/api/sector-indicators');
+                const data = await response.json();
+                
+                const resultDiv = document.getElementById('sector-indicators-result');
+                resultDiv.innerHTML = data.map(sector => `
+                    <div class="sector-item">
+                        <strong>${sector.sector}:</strong> 
+                        <span class="${sector.performance >= 0 ? 'positive' : 'negative'}">
+                            ${sector.performance > 0 ? '+' : ''}${sector.performance.toFixed(2)}%
+                        </span>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading sector indicators:', error);
+                document.getElementById('sector-indicators-result').innerHTML = 
+                    '<div class="error">خطأ في تحميل مؤشرات القطاعات</div>';
+            }
+        }
+
+        // Initialize charts
+        function initializeCharts() {
+            const ctx = document.getElementById('marketChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو'],
+                    datasets: [{
+                        label: 'TASI',
+                        data: [8500, 8700, 8600, 8900, 9200, 9000],
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'تطور مؤشر TASI'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html> 

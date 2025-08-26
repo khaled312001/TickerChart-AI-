@@ -27,6 +27,8 @@
 - لا تحتاج إلى Build Command لأن المشروع يستخدم PHP
 - Vercel سيتعرف على ملفات PHP تلقائياً
 - جميع ملفات API في مجلد `api/` ستعمل كـ Serverless Functions
+- في حالة حدوث خطأ في runtime، تأكد من استخدام `vercel-php@0.6.0`
+- تأكد من وجود ملف `composer.json` في المجلد الجذر
 
 ### 3. النشر عبر Vercel CLI
 
@@ -57,16 +59,11 @@ API_BASE_URL=https://your-api-domain.com
 {
   "version": 2,
   "name": "tickerchart-ai",
-  "builds": [
-    {
-      "src": "api/**/*.php",
-      "use": "vercel-php@0.6.0"
-    },
-    {
-      "src": "*.php",
-      "use": "vercel-php@0.6.0"
+  "functions": {
+    "api/**/*.php": {
+      "runtime": "vercel-php@0.6.0"
     }
-  ],
+  },
   "routes": [
     {
       "src": "/api/(.*)",
@@ -143,6 +140,11 @@ git push origin master
 4. **خطأ في Build**
    - لا تحتاج إلى Build Command
    - اترك Build Command فارغاً في إعدادات Vercel
+
+5. **خطأ في Runtime**
+   - تأكد من استخدام `vercel-php@0.6.0`
+   - تأكد من وجود ملف `composer.json`
+   - تأكد من أن جميع ملفات PHP موجودة في المجلد الصحيح
 
 ### الدعم:
 - [Vercel Documentation](https://vercel.com/docs)

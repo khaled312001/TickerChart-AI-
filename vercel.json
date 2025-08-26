@@ -1,15 +1,16 @@
 {
   "version": 2,
   "name": "tickerchart-ai",
-  "functions": {
-    "api/**/*.php": {
-      "runtime": "vercel-php@0.6.0"
+  "builds": [
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
     }
-  },
+  ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/api/index.php"
+      "dest": "/server.js"
     },
     {
       "src": "/assets/(.*)",
@@ -21,7 +22,12 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/index.php"
+      "dest": "/server.js"
     }
-  ]
+  ],
+  "functions": {
+    "server.js": {
+      "maxDuration": 30
+    }
+  }
 } 
