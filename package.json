@@ -5,7 +5,6 @@
   "main": "index.php",
   "scripts": {
     "dev": "php -S localhost:8000",
-    "build": "echo 'Build completed'",
     "start": "php -S localhost:8000"
   },
   "keywords": [

@@ -59,8 +59,24 @@ vercel --prod
 1. اذهب إلى [Vercel](https://vercel.com)
 2. سجل دخولك أو أنشئ حساب جديد
 3. اضغط على "New Project"
-4. اختر مستودع GitHub الخاص بك
+4. اختر مستودع GitHub: `khaled312001/TickerChart-AI-`
 5. اضغط على "Deploy"
+
+### أو عبر Vercel CLI:
+
+```bash
+# تثبيت Vercel CLI
+npm i -g vercel
+
+# تسجيل الدخول
+vercel login
+
+# نشر المشروع
+vercel --prod
+```
+
+### رابط الموقع المنشور:
+🌐 **https://tickerchart-ai.vercel.app**
 
 ## 📁 هيكل المشروع
 
