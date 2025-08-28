@@ -1084,3 +1084,355 @@ footer::before {
         color: #ffffff !important;
     }
 } 
+
+/* Stock Analysis Modal Styles */
+.indicator-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.indicator-item:last-child {
+    border-bottom: none;
+}
+
+.indicator-label {
+    font-weight: 500;
+    color: #374151;
+}
+
+.indicator-value {
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+.recommendation {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-radius: 12px;
+    border: 1px solid #bae6fd;
+}
+
+.recommendation-icon {
+    flex-shrink: 0;
+}
+
+.recommendation-text h5 {
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.recommendation-text p {
+    margin: 0;
+    color: #64748b;
+    font-size: 0.95em;
+}
+
+/* Notification Styles */
+.alert {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    color: #065f46;
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    color: #92400e;
+}
+
+.alert-info {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    color: #1e40af;
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+    color: #991b1b;
+}
+
+/* Stock Selector Styles */
+#stockAnalyzerSelect {
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+#stockAnalyzerSelect:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Modal Enhancements */
+.modal-content {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    color: white;
+    border-radius: 16px 16px 0 0;
+    border-bottom: none;
+}
+
+.modal-title {
+    font-weight: 600;
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+.modal-footer {
+    border-top: 1px solid #e5e7eb;
+    padding: 16px 24px;
+}
+
+/* Chart Container Styles */
+.chart-container {
+    position: relative;
+    height: 300px;
+    margin: 20px 0;
+}
+
+#stockAnalysisChart {
+    border-radius: 8px;
+    background: #f8fafc;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .recommendation {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .indicator-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .modal-dialog {
+        margin: 10px;
+    }
+    
+    .modal-body {
+        padding: 16px;
+    }
+} 
+
+/* Portfolio Analysis Styles */
+.portfolio-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.stat-label {
+    font-weight: 500;
+    color: #374151;
+}
+
+.stat-value {
+    font-weight: 700;
+    font-size: 1.1em;
+}
+
+.recommendations-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.recommendation-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 20px;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.recommendation-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.recommendation-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.recommendation-icon.text-success {
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.recommendation-icon.text-warning {
+    background: rgba(245, 158, 11, 0.1);
+}
+
+.recommendation-icon.text-info {
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.recommendation-content h6 {
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.recommendation-content p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.95em;
+    line-height: 1.5;
+}
+
+/* Portfolio Chart Styles */
+#portfolioPieChart {
+    border-radius: 8px;
+    background: #f8fafc;
+}
+
+/* Table Enhancements */
+.table {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table thead th {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    color: white;
+    border: none;
+    font-weight: 600;
+    padding: 15px 12px;
+}
+
+.table tbody tr {
+    transition: all 0.3s ease;
+}
+
+.table tbody tr:hover {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    transform: scale(1.01);
+}
+
+.table tbody td {
+    padding: 12px;
+    border-bottom: 1px solid #e5e7eb;
+    vertical-align: middle;
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Performance Indicators */
+.text-success {
+    color: #10b981 !important;
+    font-weight: 600;
+}
+
+.text-danger {
+    color: #ef4444 !important;
+    font-weight: 600;
+}
+
+.text-warning {
+    color: #f59e0b !important;
+    font-weight: 600;
+}
+
+.text-info {
+    color: #3b82f6 !important;
+    font-weight: 600;
+}
+
+.text-primary {
+    color: #1e3a8a !important;
+    font-weight: 600;
+}
+
+/* Modal Footer Buttons */
+.modal-footer .btn {
+    border-radius: 8px;
+    font-weight: 600;
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+}
+
+.modal-footer .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive Design for Portfolio */
+@media (max-width: 768px) {
+    .recommendation-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .stat-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 5px;
+    }
+    
+    .table-responsive {
+        font-size: 0.9em;
+    }
+    
+    .table thead th,
+    .table tbody td {
+        padding: 8px 6px;
+    }
+    
+    .recommendations-list {
+        gap: 15px;
+    }
+    
+    .recommendation-item {
+        padding: 15px;
+    }
+} 

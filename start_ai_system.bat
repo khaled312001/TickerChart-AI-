@@ -25,12 +25,28 @@ if errorlevel 1 (
 :: Create logs directory
 if not exist "logs" mkdir logs
 
-:: Start Enhanced AI Server (Python) in background
+:: Kill any existing processes on ports 8000 and 8001
+echo [INFO] Stopping any existing servers...
+for /f "tokens=5" %%a in ('netstat -aon ^| findstr :8000') do taskkill /f /pid %%a >nul 2>&1
+for /f "tokens=5" %%a in ('netstat -aon ^| findstr :8001') do taskkill /f /pid %%a >nul 2>&1
+
+:: Start Enhanced AI Server (Python) in background with proper logging
 echo [INFO] Starting Enhanced AI Server (Python ML Backend)...
-start /b python ai/enhanced_ai_server.py
+start /b cmd /c "python ai/enhanced_ai_server.py > logs\python_server.log 2>&1"
 
 :: Wait a moment for Python server to start
-timeout /t 3 /nobreak >nul
+echo [INFO] Waiting for AI server to start...
+timeout /t 5 /nobreak >nul
+
+:: Check if Python server started successfully
+echo [INFO] Checking AI server status...
+curl -s http://localhost:8001/health >nul 2>&1
+if errorlevel 1 (
+    echo [WARNING] AI server may not have started properly
+    echo [INFO] Check logs\python_server.log for details
+) else (
+    echo [SUCCESS] AI server is running on port 8001
+)
 
 :: Start PHP Server
 echo [INFO] Starting PHP Server (Frontend)...

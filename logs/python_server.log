@@ -1,13 +1,17 @@
-2025-08-23 16:26:25,943 - __main__ - INFO - AI model initialized successfully
-2025-08-23 16:26:25,946 - __main__ - INFO - Starting AI Server on 127.0.0.1:8001
- * Serving Flask app 'ai_server'
+INFO:__main__:Enhanced AI model initialized successfully
+INFO:__main__:🚀 Starting Enhanced AI Server...
+Starting Enhanced AI Server on port 8001
+ * Serving Flask app 'enhanced_ai_server'
  * Debug mode: off
-2025-08-23 16:26:25,973 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
  * Running on http://127.0.0.1:8001
-2025-08-23 16:26:25,973 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
-2025-08-23 16:42:45,545 - werkzeug - INFO - 127.0.0.1 - - [23/Aug/2025 16:42:45] "OPTIONS /api/trend-analysis HTTP/1.1" 200 -
-2025-08-23 16:42:45,802 - werkzeug - INFO - 127.0.0.1 - - [23/Aug/2025 16:42:45] "POST /api/trend-analysis HTTP/1.1" 200 -
-2025-08-23 16:43:15,912 - werkzeug - INFO - 127.0.0.1 - - [23/Aug/2025 16:43:15] "OPTIONS /api/price-prediction HTTP/1.1" 200 -
-2025-08-23 16:43:16,239 - werkzeug - INFO - 127.0.0.1 - - [23/Aug/2025 16:43:16] "POST /api/price-prediction HTTP/1.1" 200 -
-2025-08-23 16:43:28,590 - werkzeug - INFO - 127.0.0.1 - - [23/Aug/2025 16:43:28] "OPTIONS /api/risk-analysis HTTP/1.1" 200 -
-2025-08-23 16:43:28,901 - werkzeug - INFO - 127.0.0.1 - - [23/Aug/2025 16:43:28] "POST /api/risk-analysis HTTP/1.1" 200 -
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [28/Aug/2025 19:24:12] "OPTIONS /api/trend-analysis HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [28/Aug/2025 19:24:12] "POST /api/trend-analysis HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [28/Aug/2025 19:24:28] "OPTIONS /api/price-prediction HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [28/Aug/2025 19:24:28] "POST /api/price-prediction HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [28/Aug/2025 19:24:43] "OPTIONS /api/risk-analysis HTTP/1.1" 200 -
+ERROR:__main__:Risk analysis error: 'str' object has no attribute 'get'
+INFO:werkzeug:127.0.0.1 - - [28/Aug/2025 19:24:43] "[35m[1mPOST /api/risk-analysis HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [28/Aug/2025 19:27:38] "OPTIONS /api/stock-analysis HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [28/Aug/2025 19:27:38] "POST /api/stock-analysis HTTP/1.1" 200 -

@@ -32,3 +32,32 @@
 2025-08-23 16:43:16,239 - werkzeug - INFO - 127.0.0.1 - - [23/Aug/2025 16:43:16] "POST /api/price-prediction HTTP/1.1" 200 -
 2025-08-23 16:43:28,590 - werkzeug - INFO - 127.0.0.1 - - [23/Aug/2025 16:43:28] "OPTIONS /api/risk-analysis HTTP/1.1" 200 -
 2025-08-23 16:43:28,901 - werkzeug - INFO - 127.0.0.1 - - [23/Aug/2025 16:43:28] "POST /api/risk-analysis HTTP/1.1" 200 -
+2025-08-28 18:45:27,293 - __main__ - INFO - AI model initialized successfully
+2025-08-28 18:45:27,296 - __main__ - INFO - Starting AI Server on 127.0.0.1:8001
+2025-08-28 18:45:27,325 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8001
+2025-08-28 18:45:27,325 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-28 18:48:40,818 - __main__ - INFO - AI model initialized successfully
+2025-08-28 18:48:40,820 - __main__ - INFO - Starting AI Server on 127.0.0.1:8001
+2025-08-28 18:48:40,838 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8001
+2025-08-28 18:48:40,839 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-28 18:50:32,539 - __main__ - INFO - AI model initialized successfully
+2025-08-28 18:50:32,542 - __main__ - INFO - Starting AI Server on 127.0.0.1:8001
+2025-08-28 18:50:32,562 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8001
+2025-08-28 18:50:32,562 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-28 19:00:51,701 - INFO - ✅ ML models initialized successfully
+2025-08-28 19:00:51,701 - INFO - ✅ Enhanced AI Server initialized
+2025-08-28 19:00:51,705 - INFO - 🚀 Starting Enhanced AI Server...
+2025-08-28 19:00:51,731 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8001
+ * Running on http://10.149.167.247:8001
+2025-08-28 19:00:51,732 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-28 19:01:55,278 - __main__ - INFO - AI model initialized successfully
+2025-08-28 19:01:55,281 - __main__ - INFO - Starting AI Server on 127.0.0.1:8001
+2025-08-28 19:01:55,299 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8001
+2025-08-28 19:01:55,299 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-28 19:01:58,656 - werkzeug - INFO - 127.0.0.1 - - [28/Aug/2025 19:01:58] "GET / HTTP/1.1" 200 -

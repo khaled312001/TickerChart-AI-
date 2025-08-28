@@ -10,6 +10,7 @@ set "PHP_CMD=php"
 set "PIP_CMD=pip"
 set "LOG_DIR=logs"
 set "PID_FILE=server_pids.txt"
+set "FAST_MODE=1"
 
 :: Parse command line arguments
 :parse_args
@@ -32,6 +33,16 @@ if /i "%~1"=="--host" (
     shift
     goto :parse_args
 )
+if /i "%~1"=="--fast" (
+    set "FAST_MODE=1"
+    shift
+    goto :parse_args
+)
+if /i "%~1"=="--normal" (
+    set "FAST_MODE=0"
+    shift
+    goto :parse_args
+)
 if /i "%~1"=="--help" (
     goto :show_help
 )
@@ -45,12 +56,15 @@ echo Options:
 echo   --php-port PORT     Set PHP server port ^(default: 8000^)
 echo   --python-port PORT  Set Python AI server port ^(default: 8001^)
 echo   --host HOST         Set server host ^(default: 127.0.0.1^)
+echo   --fast              Enable fast-loading mode ^(default^)
+echo   --normal            Use normal loading mode
 echo   --help              Show this help message
 echo.
 echo Examples:
 echo   start_server.bat
+echo   start_server.bat --fast
 echo   start_server.bat --php-port 8080 --python-port 8081
-echo   start_server.bat --host localhost
+echo   start_server.bat --host localhost --normal
 echo.
 pause
 exit /b 0
@@ -66,6 +80,7 @@ echo Configuration:
 echo   Host: %HOST%
 echo   PHP Port: %PHP_PORT%
 echo   Python AI Port: %PYTHON_PORT%
+echo   Fast Mode: %FAST_MODE%
 echo.
 
 :: Create logs directory
@@ -74,8 +89,14 @@ if not exist "%LOG_DIR%" (
     echo ✅ تم إنشاء مجلد السجلات
 )
 
+:: Create cache directory for API
+if not exist "api\cache" (
+    mkdir "api\cache"
+    echo ✅ تم إنشاء مجلد التخزين المؤقت
+)
+
 :: Kill any existing server processes
-echo [1/8] إيقاف الخوادم الموجودة...
+echo [1/9] إيقاف الخوادم الموجودة...
 call :kill_processes %PHP_PORT%
 call :kill_processes %PYTHON_PORT%
 
@@ -83,7 +104,7 @@ call :kill_processes %PYTHON_PORT%
 timeout /t 3 /nobreak >nul
 
 :: Check if ports are available
-echo [2/8] فحص المنافذ...
+echo [2/9] فحص المنافذ...
 call :check_port %PHP_PORT%
 if errorlevel 1 (
     echo ❌ المنفذ %PHP_PORT% لا يزال مستخدماً
@@ -101,7 +122,7 @@ if errorlevel 1 (
 echo ✅ جميع المنافذ متاحة
 
 :: Check Python installation
-echo [3/8] فحص Python...
+echo [3/9] فحص Python...
 call :check_python
 if errorlevel 1 (
     echo ❌ فشل في العثور على Python
@@ -110,7 +131,7 @@ if errorlevel 1 (
 )
 
 :: Check PHP installation
-echo [4/8] فحص PHP...
+echo [4/9] فحص PHP...
 call :check_php
 if errorlevel 1 (
     echo ❌ فشل في العثور على PHP
@@ -119,7 +140,7 @@ if errorlevel 1 (
 )
 
 :: Install Python dependencies
-echo [5/8] تثبيت مكتبات Python...
+echo [5/9] تثبيت مكتبات Python...
 call :install_python_deps
 if errorlevel 1 (
     echo ❌ فشل في تثبيت مكتبات Python
@@ -128,7 +149,7 @@ if errorlevel 1 (
 )
 
 :: Create Python AI server script if it doesn't exist
-echo [6/8] إعداد خادم Python AI...
+echo [6/9] إعداد خادم Python AI...
 call :setup_python_server
 if errorlevel 1 (
     echo ❌ فشل في إعداد خادم Python AI
@@ -137,7 +158,7 @@ if errorlevel 1 (
 )
 
 :: Start Python AI server in background
-echo [7/8] تشغيل خادم Python AI...
+echo [7/9] تشغيل خادم Python AI...
 call :start_python_server
 if errorlevel 1 (
     echo ❌ فشل في تشغيل خادم Python AI
@@ -145,24 +166,37 @@ if errorlevel 1 (
     exit /b 1
 )
 
+:: Setup fast-loading files if needed
+echo [8/9] إعداد الملفات السريعة...
+call :setup_fast_files
+if errorlevel 1 (
+    echo ⚠️  فشل في إعداد بعض الملفات السريعة
+)
+
 :: Start PHP server
-echo [8/8] تشغيل خادم PHP...
+echo [9/9] تشغيل خادم PHP...
 echo.
 echo ========================================
 echo    معلومات الخوادم
 echo ========================================
-echo الموقع الرئيسي: http://%HOST%:%PHP_PORT%
-echo خادم Python AI: http://%HOST%:%PYTHON_PORT%
-echo المسار: %CD%
-echo Python: %PYTHON_CMD%
-echo PHP: %PHP_CMD%
+echo 🌐 الموقع الرئيسي: http://%HOST%:%PHP_PORT%/
+echo 🚀 الموقع السريع: http://%HOST%:%PHP_PORT%/index-fast.php
+echo 🧪 صفحة الاختبار: http://%HOST%:%PHP_PORT%/test-fast.html
+echo 📊 فحص الحالة: http://%HOST%:%PHP_PORT%/check-status.php
+echo 🤖 خادم Python AI: http://%HOST%:%PYTHON_PORT%/
+echo 📁 المسار: %CD%
+echo 🐍 Python: %PYTHON_CMD%
+echo 🐘 PHP: %PHP_CMD%
 echo ========================================
 echo.
 echo أوامر مفيدة:
 echo   Ctrl+C     - إيقاف جميع الخوادم
 echo   Ctrl+Break - إيقاف جميع الخوادم ^(Windows^)
 echo.
-echo جاري تشغيل الخادم الرئيسي...
+echo 🌐 جاري تشغيل الموقع الرئيسي...
+echo جاري فتح المتصفح...
+timeout /t 2 /nobreak >nul
+start http://%HOST%:%PHP_PORT%/
 echo.
 
 :: Start PHP server
@@ -328,202 +362,91 @@ exit /b 0
 
 :: Function to setup Python AI server
 :setup_python_server
-if not exist "ai\ai_server.py" (
-    echo إنشاء خادم Python AI...
+if not exist "ai\enhanced_ai_server.py" (
+    echo إنشاء خادم Python AI محسن...
     
     if not exist "ai" mkdir "ai"
     
-    echo import os > ai\ai_server.py
-    echo import sys >> ai\ai_server.py
-    echo import json >> ai\ai_server.py
-    echo import logging >> ai\ai_server.py
-    echo from datetime import datetime >> ai\ai_server.py
-    echo from flask import Flask, request, jsonify, render_template_string >> ai\ai_server.py
-    echo from flask_cors import CORS >> ai\ai_server.py
-    echo import numpy as np >> ai\ai_server.py
-    echo import pandas as pd >> ai\ai_server.py
-    echo from sklearn.ensemble import RandomForestRegressor >> ai\ai_server.py
-    echo from sklearn.preprocessing import StandardScaler >> ai\ai_server.py
-    echo import matplotlib.pyplot as plt >> ai\ai_server.py
-    echo import seaborn as sns >> ai\ai_server.py
-    echo import io >> ai\ai_server.py
-    echo import base64 >> ai\ai_server.py
-    echo. >> ai\ai_server.py
-    echo # Configure logging >> ai\ai_server.py
-    echo logging.basicConfig(level=logging.INFO) >> ai\ai_server.py
-    echo logger = logging.getLogger(__name__) >> ai\ai_server.py
-    echo. >> ai\ai_server.py
-    echo app = Flask(__name__) >> ai\ai_server.py
-    echo CORS(app) >> ai\ai_server.py
-    echo. >> ai\ai_server.py
-    echo class AIServer: >> ai\ai_server.py
-    echo     def __init__(self): >> ai\ai_server.py
-    echo         self.model = None >> ai\ai_server.py
-    echo         self.scaler = StandardScaler() >> ai\ai_server.py
-    echo         self.initialize_model() >> ai\ai_server.py
-    echo. >> ai\ai_server.py
-    echo     def initialize_model(self): >> ai\ai_server.py
-    echo         """Initialize the AI model""" >> ai\ai_server.py
-    echo         try: >> ai\ai_server.py
-    echo             # Create a simple model for demonstration >> ai\ai_server.py
-    echo             self.model = RandomForestRegressor(n_estimators=100, random_state=42) >> ai\ai_server.py
-    echo             logger.info("AI model initialized successfully") >> ai\ai_server.py
-    echo         except Exception as e: >> ai\ai_server.py
-    echo             logger.error(f"Failed to initialize model: {e}") >> ai\ai_server.py
-    echo. >> ai\ai_server.py
-    echo     def generate_market_data(self, days=30): >> ai\ai_server.py
-    echo         """Generate synthetic market data""" >> ai\ai_server.py
-    echo         np.random.seed(42) >> ai\ai_server.py
-    echo         dates = pd.date_range(start='2024-01-01', periods=days, freq='D') >> ai\ai_server.py
-    echo         prices = 100 + np.cumsum(np.random.randn(days) * 0.5) >> ai\ai_server.py
-    echo         volumes = np.random.randint(1000000, 10000000, days) >> ai\ai_server.py
-    echo         return pd.DataFrame({ >> ai\ai_server.py
-    echo             'date': dates, >> ai\ai_server.py
-    echo             'price': prices, >> ai\ai_server.py
-    echo             'volume': volumes >> ai\ai_server.py
-    echo         }) >> ai\ai_server.py
-    echo. >> ai\ai_server.py
-    echo ai_server = AIServer() >> ai\ai_server.py
-    echo. >> ai\ai_server.py
-    echo @app.route('/') >> ai\ai_server.py
-    echo def home(): >> ai\ai_server.py
-    echo     return jsonify({"status": "AI Server Running", "timestamp": datetime.now().isoformat()}) >> ai\ai_server.py
-    echo. >> ai\ai_server.py
-    echo @app.route('/health') >> ai\ai_server.py
-    echo def health(): >> ai\ai_server.py
-    echo     return jsonify({"status": "healthy", "model_loaded": ai_server.model is not None}) >> ai\ai_server.py
-    echo. >> ai\ai_server.py
-    echo @app.route('/api/trend-analysis', methods=['POST']) >> ai\ai_server.py
-    echo def trend_analysis(): >> ai\ai_server.py
-    echo     try: >> ai\ai_server.py
-    echo         data = request.get_json() >> ai\ai_server.py
-    echo         period = data.get('period', '1d') >> ai\ai_server.py
-    echo         days = {'1d': 1, '1w': 7, '1m': 30, '3m': 90}.get(period, 30) >> ai\ai_server.py
-    echo. >> ai\ai_server.py
-    echo         market_data = ai_server.generate_market_data(days) >> ai\ai_server.py
-    echo. >> ai\ai_server.py
-    echo         # Simple trend analysis >> ai\ai_server.py
-    echo         trend = "upward" if market_data['price'].iloc[-1] > market_data['price'].iloc[0] else "downward" >> ai\ai_server.py
-    echo         confidence = np.random.uniform(0.6, 0.95) >> ai\ai_server.py
-    echo. >> ai\ai_server.py
-    echo         return jsonify({ >> ai\ai_server.py
-    echo             "trend": trend, >> ai\ai_server.py
-    echo             "confidence": round(confidence, 2), >> ai\ai_server.py
-    echo             "data": market_data.to_dict('records'), >> ai\ai_server.py
-    echo             "analysis": f"Market shows {trend} trend with {confidence:.1%} confidence" >> ai\ai_server.py
-    echo         }) >> ai\ai_server.py
-    echo     except Exception as e: >> ai\ai_server.py
-    echo         logger.error(f"Trend analysis error: {e}") >> ai\ai_server.py
-    echo         return jsonify({"error": str(e)}), 500 >> ai\ai_server.py
-    echo. >> ai\ai_server.py
-    echo @app.route('/api/price-prediction', methods=['POST']) >> ai\ai_server.py
-    echo def price_prediction(): >> ai\ai_server.py
-    echo     try: >> ai\ai_server.py
-    echo         data = request.get_json() >> ai\ai_server.py
-    echo         stock = data.get('stock', 'TASI') >> ai\ai_server.py
-    echo         period = data.get('period', '1d') >> ai\ai_server.py
-    echo. >> ai\ai_server.py
-    echo         # Generate prediction data >> ai\ai_server.py
-    echo         current_price = 10885.58 >> ai\ai_server.py
-    echo         change_percent = np.random.uniform(-5, 5) >> ai\ai_server.py
-    echo         predicted_price = current_price * (1 + change_percent / 100) >> ai\ai_server.py
-    echo. >> ai\ai_server.py
-    echo         return jsonify({ >> ai\ai_server.py
-    echo             "stock": stock, >> ai\ai_server.py
-    echo             "current_price": current_price, >> ai\ai_server.py
-    echo             "predicted_price": round(predicted_price, 2), >> ai\ai_server.py
-    echo             "change_percent": round(change_percent, 2), >> ai\ai_server.py
-    echo             "confidence": round(np.random.uniform(0.7, 0.95), 2), >> ai\ai_server.py
-    echo             "prediction_date": datetime.now().isoformat() >> ai\ai_server.py
-    echo         }) >> ai\ai_server.py
-    echo     except Exception as e: >> ai\ai_server.py
-    echo         logger.error(f"Price prediction error: {e}") >> ai\ai_server.py
-    echo         return jsonify({"error": str(e)}), 500 >> ai\ai_server.py
-    echo. >> ai\ai_server.py
-    echo @app.route('/api/risk-analysis', methods=['POST']) >> ai\ai_server.py
-    echo def risk_analysis(): >> ai\ai_server.py
-    echo     try: >> ai\ai_server.py
-    echo         data = request.get_json() >> ai\ai_server.py
-    echo         portfolio_type = data.get('portfolio_type', 'moderate') >> ai\ai_server.py
-    echo         risk_level = data.get('risk_level', 5) >> ai\ai_server.py
-    echo. >> ai\ai_server.py
-    echo         # Calculate risk metrics >> ai\ai_server.py
-    echo         risk_score = risk_level / 10.0 >> ai\ai_server.py
-    echo         volatility = risk_score * 0.3 >> ai\ai_server.py
-    echo         sharpe_ratio = (0.08 - 0.02) / volatility if volatility > 0 else 0 >> ai\ai_server.py
-    echo. >> ai\ai_server.py
-    echo         return jsonify({ >> ai\ai_server.py
-    echo             "portfolio_type": portfolio_type, >> ai\ai_server.py
-    echo             "risk_level": risk_level, >> ai\ai_server.py
-    echo             "risk_score": round(risk_score, 2), >> ai\ai_server.py
-    echo             "volatility": round(volatility, 2), >> ai\ai_server.py
-    echo             "sharpe_ratio": round(sharpe_ratio, 2), >> ai\ai_server.py
-    echo             "recommendation": "Consider diversifying your portfolio" if risk_score > 0.7 else "Portfolio risk is acceptable" >> ai\ai_server.py
-    echo         }) >> ai\ai_server.py
-    echo     except Exception as e: >> ai\ai_server.py
-    echo         logger.error(f"Risk analysis error: {e}") >> ai\ai_server.py
-    echo         return jsonify({"error": str(e)}), 500 >> ai\ai_server.py
-    echo. >> ai\ai_server.py
-    echo @app.route('/api/portfolio-analysis', methods=['POST']) >> ai\ai_server.py
-    echo def portfolio_analysis(): >> ai\ai_server.py
-    echo     try: >> ai\ai_server.py
-    echo         data = request.get_json() >> ai\ai_server.py
-    echo         stocks = data.get('stocks', []) >> ai\ai_server.py
-    echo. >> ai\ai_server.py
-    echo         if not stocks: >> ai\ai_server.py
-    echo             return jsonify({"error": "No stocks provided"}), 400 >> ai\ai_server.py
-    echo. >> ai\ai_server.py
-    echo         # Calculate portfolio metrics >> ai\ai_server.py
-    echo         total_value = sum(stock.get('value', 0) for stock in stocks) >> ai\ai_server.py
-    echo         performance = np.random.uniform(-10, 15) >> ai\ai_server.py
-    echo. >> ai\ai_server.py
-    echo         return jsonify({ >> ai\ai_server.py
-    echo             "total_value": total_value, >> ai\ai_server.py
-    echo             "performance_percent": round(performance, 2), >> ai\ai_server.py
-    echo             "risk_score": round(np.random.uniform(0.3, 0.8), 2), >> ai\ai_server.py
-    echo             "diversification_score": round(np.random.uniform(0.6, 0.9), 2), >> ai\ai_server.py
-    echo             "recommendations": [ >> ai\ai_server.py
-    echo                 "Consider adding more defensive stocks", >> ai\ai_server.py
-    echo                 "Monitor high-volatility positions", >> ai\ai_server.py
-    echo                 "Rebalance portfolio quarterly" >> ai\ai_server.py
-    echo             ] >> ai\ai_server.py
-    echo         }) >> ai\ai_server.py
-    echo     except Exception as e: >> ai\ai_server.py
-    echo         logger.error(f"Portfolio analysis error: {e}") >> ai\ai_server.py
-    echo         return jsonify({"error": str(e)}), 500 >> ai\ai_server.py
-    echo. >> ai\ai_server.py
-    echo @app.route('/api/stock-analysis', methods=['POST']) >> ai\ai_server.py
-    echo def stock_analysis(): >> ai\ai_server.py
-    echo     try: >> ai\ai_server.py
-    echo         data = request.get_json() >> ai\ai_server.py
-    echo         stock_symbol = data.get('symbol', 'TASI') >> ai\ai_server.py
-    echo. >> ai\ai_server.py
-    echo         # Generate stock analysis >> ai\ai_server.py
-    echo         current_price = 10885.58 + np.random.uniform(-100, 100) >> ai\ai_server.py
-    echo         change = np.random.uniform(-50, 50) >> ai\ai_server.py
-    echo         volume = np.random.randint(1000000, 10000000) >> ai\ai_server.py
-    echo. >> ai\ai_server.py
-    echo         return jsonify({ >> ai\ai_server.py
-    echo             "symbol": stock_symbol, >> ai\ai_server.py
-    echo             "current_price": round(current_price, 2), >> ai\ai_server.py
-    echo             "change": round(change, 2), >> ai\ai_server.py
-    echo             "change_percent": round(change / current_price * 100, 2), >> ai\ai_server.py
-    echo             "volume": volume, >> ai\ai_server.py
-    echo             "rsi": round(np.random.uniform(30, 70), 1), >> ai\ai_server.py
-    echo             "macd": round(np.random.uniform(-2, 2), 3), >> ai\ai_server.py
-    echo             "recommendation": "BUY" if change > 0 else "SELL" >> ai\ai_server.py
-    echo         }) >> ai\ai_server.py
-    echo     except Exception as e: >> ai\ai_server.py
-    echo         logger.error(f"Stock analysis error: {e}") >> ai\ai_server.py
-    echo         return jsonify({"error": str(e)}), 500 >> ai\ai_server.py
-    echo. >> ai\ai_server.py
-    echo if __name__ == '__main__': >> ai\ai_server.py
-    echo     print(f"Starting AI Server on port {os.environ.get('PYTHON_PORT', 8001)}") >> ai\ai_server.py
-    echo     app.run(host='127.0.0.1', port=int(os.environ.get('PYTHON_PORT', 8001)), debug=False) >> ai\ai_server.py
+    :: Create enhanced AI server
+    echo import os > ai\enhanced_ai_server.py
+    echo import sys >> ai\enhanced_ai_server.py
+    echo import json >> ai\enhanced_ai_server.py
+    echo import logging >> ai\enhanced_ai_server.py
+    echo from datetime import datetime >> ai\enhanced_ai_server.py
+    echo from flask import Flask, request, jsonify >> ai\enhanced_ai_server.py
+    echo from flask_cors import CORS >> ai\enhanced_ai_server.py
+    echo import numpy as np >> ai\enhanced_ai_server.py
+    echo import pandas as pd >> ai\enhanced_ai_server.py
+    echo from sklearn.ensemble import RandomForestRegressor >> ai\enhanced_ai_server.py
+    echo from sklearn.preprocessing import StandardScaler >> ai\enhanced_ai_server.py
+    echo. >> ai\enhanced_ai_server.py
+    echo # Configure logging >> ai\enhanced_ai_server.py
+    echo logging.basicConfig(level=logging.INFO) >> ai\enhanced_ai_server.py
+    echo logger = logging.getLogger(__name__) >> ai\enhanced_ai_server.py
+    echo. >> ai\enhanced_ai_server.py
+    echo app = Flask(__name__) >> ai\enhanced_ai_server.py
+    echo CORS(app) >> ai\enhanced_ai_server.py
+    echo. >> ai\enhanced_ai_server.py
+    echo class EnhancedAIServer: >> ai\enhanced_ai_server.py
+    echo     def __init__(self): >> ai\enhanced_ai_server.py
+    echo         self.model = None >> ai\enhanced_ai_server.py
+    echo         self.scaler = StandardScaler() >> ai\enhanced_ai_server.py
+    echo         self.initialize_model() >> ai\enhanced_ai_server.py
+    echo. >> ai\enhanced_ai_server.py
+    echo     def initialize_model(self): >> ai\enhanced_ai_server.py
+    echo         try: >> ai\enhanced_ai_server.py
+    echo             self.model = RandomForestRegressor(n_estimators=100, random_state=42) >> ai\enhanced_ai_server.py
+    echo             logger.info("Enhanced AI model initialized successfully") >> ai\enhanced_ai_server.py
+    echo         except Exception as e: >> ai\enhanced_ai_server.py
+    echo             logger.error(f"Failed to initialize model: {e}") >> ai\enhanced_ai_server.py
+    echo. >> ai\enhanced_ai_server.py
+    echo     def generate_market_data(self, days=30): >> ai\enhanced_ai_server.py
+    echo         np.random.seed(42) >> ai\enhanced_ai_server.py
+    echo         dates = pd.date_range(start='2024-01-01', periods=days, freq='D') >> ai\enhanced_ai_server.py
+    echo         prices = 10885.58 + np.cumsum(np.random.randn(days) * 0.5) >> ai\enhanced_ai_server.py
+    echo         volumes = np.random.randint(1000000, 10000000, days) >> ai\enhanced_ai_server.py
+    echo         return pd.DataFrame({ >> ai\enhanced_ai_server.py
+    echo             'date': dates, >> ai\enhanced_ai_server.py
+    echo             'price': prices, >> ai\enhanced_ai_server.py
+    echo             'volume': volumes >> ai\enhanced_ai_server.py
+    echo         }) >> ai\enhanced_ai_server.py
+    echo. >> ai\enhanced_ai_server.py
+    echo ai_server = EnhancedAIServer() >> ai\enhanced_ai_server.py
+    echo. >> ai\enhanced_ai_server.py
+    echo @app.route('/') >> ai\enhanced_ai_server.py
+    echo def home(): >> ai\enhanced_ai_server.py
+    echo     return jsonify({"status": "Enhanced AI Server Running", "timestamp": datetime.now().isoformat()}) >> ai\enhanced_ai_server.py
+    echo. >> ai\enhanced_ai_server.py
+    echo @app.route('/health') >> ai\enhanced_ai_server.py
+    echo def health(): >> ai\enhanced_ai_server.py
+    echo     return jsonify({"status": "healthy", "model_loaded": ai_server.model is not None}) >> ai\enhanced_ai_server.py
+    echo. >> ai\enhanced_ai_server.py
+    echo @app.route('/api/trend-analysis', methods=['POST']) >> ai\enhanced_ai_server.py
+    echo def trend_analysis(): >> ai\enhanced_ai_server.py
+    echo     try: >> ai\enhanced_ai_server.py
+    echo         data = request.get_json() >> ai\enhanced_ai_server.py
+    echo         period = data.get('period', '1d') >> ai\enhanced_ai_server.py
+    echo         days = {'1d': 1, '1w': 7, '1m': 30, '3m': 90}.get(period, 30) >> ai\enhanced_ai_server.py
+    echo         market_data = ai_server.generate_market_data(days) >> ai\enhanced_ai_server.py
+    echo         trend = "upward" if market_data['price'].iloc[-1] > market_data['price'].iloc[0] else "downward" >> ai\enhanced_ai_server.py
+    echo         confidence = np.random.uniform(0.6, 0.95) >> ai\enhanced_ai_server.py
+    echo         return jsonify({ >> ai\enhanced_ai_server.py
+    echo             "trend": trend, >> ai\enhanced_ai_server.py
+    echo             "confidence": round(confidence, 2), >> ai\enhanced_ai_server.py
+    echo             "data": market_data.to_dict('records'), >> ai\enhanced_ai_server.py
+    echo             "analysis": f"Market shows {trend} trend with {confidence:.1%} confidence" >> ai\enhanced_ai_server.py
+    echo         }) >> ai\enhanced_ai_server.py
+    echo     except Exception as e: >> ai\enhanced_ai_server.py
+    echo         logger.error(f"Trend analysis error: {e}") >> ai\enhanced_ai_server.py
+    echo         return jsonify({"error": str(e)}), 500 >> ai\enhanced_ai_server.py
+    echo. >> ai\enhanced_ai_server.py
+    echo if __name__ == '__main__': >> ai\enhanced_ai_server.py
+    echo     print(f"Starting Enhanced AI Server on port {os.environ.get('PYTHON_PORT', 8001)}") >> ai\enhanced_ai_server.py
+    echo     app.run(host='127.0.0.1', port=int(os.environ.get('PYTHON_PORT', 8001)), debug=False) >> ai\enhanced_ai_server.py
     
-    echo ✅ تم إنشاء خادم Python AI
+    echo ✅ تم إنشاء خادم Python AI محسن
 ) else (
-    echo ✅ خادم Python AI موجود بالفعل
+    echo ✅ خادم Python AI محسن موجود بالفعل
 )
 exit /b 0
 
@@ -535,7 +458,7 @@ echo تشغيل خادم Python AI على المنفذ %PYTHON_PORT%...
 set "PYTHON_PORT=%PYTHON_PORT%"
 
 :: Start Python server in background
-start "Python AI Server" /B %PYTHON_CMD% ai\ai_server.py > "%LOG_DIR%\python_server.log" 2>&1
+start "Python AI Server" /B %PYTHON_CMD% ai\enhanced_ai_server.py > "%LOG_DIR%\python_server.log" 2>&1
 
 :: Wait a moment for server to start
 timeout /t 3 /nobreak >nul
@@ -552,6 +475,47 @@ exit /b 1
 
 :python_server_running
 echo ✅ خادم Python AI جاهز
+exit /b 0
+
+:: Function to setup fast-loading files
+:setup_fast_files
+if "%FAST_MODE%"=="1" (
+    echo إعداد الملفات السريعة...
+    
+    :: Check for main website files
+    if not exist "index.php" (
+        echo ⚠️  ملف index.php غير موجود - سيتم استخدام الملفات البديلة
+    ) else (
+        echo ✅ الموقع الرئيسي متاح
+    )
+    
+    :: Check for fast files (optional)
+    if not exist "assets\js\fast-market.js" (
+        echo ⚠️  ملف fast-market.js غير موجود
+    ) else (
+        echo ✅ ملف fast-market.js متاح
+    )
+    
+    if not exist "index-fast.php" (
+        echo ⚠️  ملف index-fast.php غير موجود
+    ) else (
+        echo ✅ ملف index-fast.php متاح
+    )
+    
+    if not exist "test-fast.html" (
+        echo ⚠️  ملف test-fast.html غير موجود
+    ) else (
+        echo ✅ ملف test-fast.html متاح
+    )
+    
+    if not exist "check-status.php" (
+        echo ⚠️  ملف check-status.php غير موجود
+    ) else (
+        echo ✅ ملف check-status.php متاح
+    )
+    
+    echo ✅ إعداد الملفات السريعة مكتمل
+)
 exit /b 0
 
 :: Function to cleanup on exit

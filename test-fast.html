@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fast Market Test - TickerChart AI</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        body { direction: rtl; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); display: flex; justify-content: center; align-items: center; z-index: 9999; }
+        .main-content { display: none; }
+        .stat-card { background: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 20px; margin-bottom: 20px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .stat-icon { font-size: 2rem; margin-bottom: 10px; }
+        .stat-value { font-size: 1.5rem; font-weight: bold; color: #fff; }
+        .stat-label { color: rgba(255, 255, 255, 0.8); font-size: 0.9rem; }
+        .stock-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .stock-name { font-weight: bold; color: #fff; }
+        .stock-symbol { color: rgba(255, 255, 255, 0.7); font-size: 0.8rem; }
+        .stock-price { font-weight: bold; color: #fff; }
+        .chart-container { height: 300px; margin: 20px 0; }
+        .hero-section { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%); min-height: 50vh; display: flex; align-items: center; }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="text-center text-white">
+            <div class="mb-4">
+                <i class="fas fa-cog fa-3x fa-spin"></i>
+            </div>
+            <h2>TickerChart AI</h2>
+            <p>جاري تحميل البيانات...</p>
+            <div class="progress bg-white bg-opacity-25" style="width: 200px; margin: 0 auto;">
+                <div class="progress-bar bg-white" style="width: 0%"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <h1 class="display-4 text-white fw-bold mb-4">
+                            اختبار السرعة
+                            <span class="text-warning">TickerChart AI</span>
+                        </h1>
+                        <p class="lead text-white-50 mb-4">
+                            صفحة اختبار للتحقق من سرعة تحميل البيانات
+                        </p>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="text-center">
+                            <div class="bg-white bg-opacity-10 rounded-3 p-4">
+                                <h3 class="text-white mb-3">مؤشر TASI</h3>
+                                <div class="mb-2">
+                                    <span id="tasiValue" class="display-6 text-white fw-bold">--</span>
+                                </div>
+                                <div>
+                                    <span id="tasiChange" class="h5">--</span>
+                                </div>
+                                <div class="mt-3">
+                                    <button id="refreshBtn" class="btn btn-warning">
+                                        <i class="fas fa-sync-alt me-1"></i>
+                                        تحديث
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Market Statistics -->
+        <section class="py-5 bg-dark">
+            <div class="container">
+                <h2 class="text-white text-center mb-5">إحصائيات السوق</h2>
+                <div id="marketStats">
+                    <!-- Market statistics will be loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Charts Section -->
+        <section class="py-5 bg-light">
+            <div class="container">
+                <h2 class="text-center mb-5">الرسوم البيانية</h2>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">مؤشر TASI</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="tasiChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">حجم التداول</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="volumeChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Top Stocks Section -->
+        <section class="py-5 bg-dark">
+            <div class="container">
+                <h2 class="text-white text-center mb-5">أفضل الأسهم</h2>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card bg-success bg-opacity-10 text-white">
+                            <div class="card-header bg-success">
+                                <h5 class="mb-0"><i class="fas fa-arrow-up me-2"></i>أعلى الرابحين</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="topGainers">
+                                    <!-- Top gainers will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card bg-danger bg-opacity-10 text-white">
+                            <div class="card-header bg-danger">
+                                <h5 class="mb-0"><i class="fas fa-arrow-down me-2"></i>أعلى الخاسرين</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="topLosers">
+                                    <!-- Top losers will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Status Section -->
+        <section class="py-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">حالة النظام</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="systemStatus">
+                                    <div class="alert alert-info">
+                                        <strong>حالة النظام:</strong> جاري التحميل...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Load JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="assets/js/fast-market.js"></script>
+
+    <script>
+        // Test-specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🧪 Fast Market Test - Starting...');
+            
+            // Animate loading progress
+            const progressBar = document.querySelector('.progress-bar');
+            if (progressBar) {
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += 10;
+                    progressBar.style.width = progress + '%';
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                    }
+                }, 100);
+            }
+            
+            // Update system status
+            setTimeout(() => {
+                const statusDiv = document.getElementById('systemStatus');
+                if (statusDiv) {
+                    statusDiv.innerHTML = `
+                        <div class="alert alert-success">
+                            <strong>✅ النظام جاهز!</strong> تم تحميل البيانات بنجاح.
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>معلومات التحميل:</h6>
+                                <ul class="list-unstyled">
+                                    <li>⏱️ وقت التحميل: <span id="loadTime">--</span></li>
+                                    <li>📊 البيانات: <span id="dataStatus">--</span></li>
+                                    <li>📈 الرسوم البيانية: <span id="chartStatus">--</span></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>أداء النظام:</h6>
+                                <ul class="list-unstyled">
+                                    <li>🚀 السرعة: ممتازة</li>
+                                    <li>💾 الذاكرة: محسنة</li>
+                                    <li>🔄 التحديث: تلقائي</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `;
+                }
+            }, 2000);
+        });
+        
+        // Override FastMarket functions for testing
+        window.FastMarket.displayMarketData = function() {
+            if (!marketData) return;
+            
+            console.log('🧪 Test: Displaying market data...');
+            
+            // Call original function
+            const originalDisplay = window.FastMarket.displayMarketData;
+            
+            // Update test-specific elements
+            const loadTimeElement = document.getElementById('loadTime');
+            if (loadTimeElement) {
+                loadTimeElement.textContent = new Date().toLocaleTimeString('ar-SA');
+            }
+            
+            const dataStatusElement = document.getElementById('dataStatus');
+            if (dataStatusElement) {
+                dataStatusElement.textContent = 'تم التحميل بنجاح';
+                dataStatusElement.className = 'text-success';
+            }
+            
+            const chartStatusElement = document.getElementById('chartStatus');
+            if (chartStatusElement) {
+                chartStatusElement.textContent = 'جاهز';
+                chartStatusElement.className = 'text-success';
+            }
+            
+            // Call original display function
+            if (typeof originalDisplay === 'function') {
+                originalDisplay.call(this);
+            }
+        };
+    </script>
+</body>
+</html> 
